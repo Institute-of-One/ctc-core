@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "ctc-core: minimal algorithm core for CT colonography analysis"
+type: software
+authors:
+  - family-names: Yamamoto
+    given-names: Shuji
+    affiliation: "Institute of One / LISIT"
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/Institute-of-One/ctc-core"
+keywords:
+  - CT colonography
+  - centerline
+  - fast marching
+  - pericolonic fat
+  - reproducibility
+references:
+  - type: data
+    title: "Data From CT COLONOGRAPHY"
+    doi: 10.7937/K9/TCIA.2015.NWTESAY1
+    authors:
+      - family-names: Smith
+        given-names: K
+      - family-names: Clark
+        given-names: K
+      - family-names: Bennett
+        given-names: W
+      - family-names: Nolan
+        given-names: T
+      - family-names: Kirby
+        given-names: J
+      - family-names: Wolfsberger
+        given-names: M
+      - family-names: Moulton
+        given-names: J
+      - family-names: Vendt
+        given-names: B
+      - family-names: Freymann
+        given-names: J
+    publisher:
+      name: The Cancer Imaging Archive
+    year: 2015

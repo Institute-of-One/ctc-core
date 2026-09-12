@@ -1,0 +1,8 @@
+outcome,prototype batch (2026-08),this pipeline
+Centerline produced,55 / 60,60 / 60
+Failed (error or < 600 mm),19 / 60,4 / 60
+"Centerline length, mm","908.5 [562.8, 1112.3]","1565.7 [1027.5, 1906.1]"
+Patients usable in both positions,15 / 30,26 / 30
+Series with at least one bridge,0 / 60,16 / 60
+"Run time per series, s","26.9 [21.6, 31.1]","70.2 [54.6, 80.2]"
+Slice-wise fill fallback,n/a,6 / 60

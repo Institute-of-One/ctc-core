@@ -1,0 +1,54 @@
+# ---------------------------------------------------------------------------
+# No patient data in git.
+# ---------------------------------------------------------------------------
+
+# Raw and derived image data
+data/
+out/
+out_*/
+cohort/raw/
+*.dcm
+*.nii
+*.nii.gz
+*.mha
+*.mhd
+*.raw
+*.npy
+*.npz
+*.h5
+*.hdf5
+
+# Per-case outputs (only aggregate summaries under results/ are committed)
+**/metrics.json
+**/centerline_points.csv
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# LaTeX build products
+manuscript/**/*.aux
+manuscript/**/*.log
+manuscript/**/*.out
+manuscript/**/*.bbl
+manuscript/**/*.blg
+manuscript/**/*.synctex.gz
+
+# Generated manuscript builds (regenerate with manuscript/build_docx.py)
+manuscript/build/

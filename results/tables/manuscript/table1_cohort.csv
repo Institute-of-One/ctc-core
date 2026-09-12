@@ -1,0 +1,39 @@
+characteristic,value,n,percent
+Patients,,30.0,
+Sex,Male,17.0,56.7
+Sex,Female,13.0,43.3
+Ethnicity,Not Hispanic or Latino,28.0,93.3
+Ethnicity,Hispanic or Latino,2.0,6.7
+Race: White,Yes,24.0,80.0
+Race: White,No,6.0,20.0
+Race: Black or African American,No,26.0,86.7
+Race: Black or African American,Yes,4.0,13.3
+Race: Asian,No,30.0,100.0
+"Indication: screening, no symptoms",Yes,27.0,90.0
+"Indication: screening, no symptoms",No,3.0,10.0
+Preparation regimen,"Other, specify",14.0,46.7
+Preparation regimen,Go-Lytely lavage preparation plus bisacodyl tablets,9.0,30.0
+Preparation regimen,"Phosphosoda, plus bisacodyl tablets",7.0,23.3
+Cathartic taken as directed,Yes,26.0,86.7
+Cathartic taken as directed,No,4.0,13.3
+Barium sulfate taken as directed,Yes,27.0,90.0
+Barium sulfate taken as directed,No,3.0,10.0
+Iodinated oral contrast taken as directed,Yes,28.0,93.3
+Iodinated oral contrast taken as directed,No,2.0,6.7
+Series by recovered position,supine,31.0,51.7
+Series by recovered position,prone,28.0,46.7
+Series by recovered position,decubitus,1.0,1.7
+Age,not provided by the collection,,
+Height,not provided by the collection,,
+Weight / BMI,not provided by the collection,,
+Scanner (series),Siemens Sensation 64,22.0,36.7
+Scanner (series),GE LightSpeed16,22.0,36.7
+Scanner (series),Siemens Sensation 16,8.0,13.3
+Scanner (series),Philips Brilliance 40,4.0,6.7
+Scanner (series),Toshiba Aquilion,4.0,6.7
+"Tube voltage, kVp","120.00 [120.00, 120.00] (range 120.00-140.00)",60.0,
+"Slice thickness, mm","1.00 [1.00, 1.25] (range 1.00-1.25)",60.0,
+"Reconstruction interval, mm","0.80 [0.80, 0.80] (range 0.80-1.00)",60.0,
+"In-plane pixel spacing, mm","0.78 [0.71, 0.79] (range 0.54-0.98)",60.0,
+"Tube current, mA","140.00 [140.00, 141.00] (range 100.00-280.00)",60.0,
+Slices per series,"552.50 [508.50, 597.00] (range 379.00-663.00)",60.0,

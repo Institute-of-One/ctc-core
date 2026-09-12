@@ -1,0 +1,28 @@
+characteristic,value,n,percent
+Patients,,30,
+Sex,Male,17,56.7
+Sex,Female,13,43.3
+Ethnicity,Not Hispanic or Latino,28,93.3
+Ethnicity,Hispanic or Latino,2,6.7
+Race: White,Yes,24,80.0
+Race: White,No,6,20.0
+Race: Black or African American,No,26,86.7
+Race: Black or African American,Yes,4,13.3
+Race: Asian,No,30,100.0
+"Indication: screening, no symptoms",Yes,27,90.0
+"Indication: screening, no symptoms",No,3,10.0
+Preparation regimen,"Other, specify",14,46.7
+Preparation regimen,Go-Lytely lavage preparation plus bisacodyl tablets,9,30.0
+Preparation regimen,"Phosphosoda, plus bisacodyl tablets",7,23.3
+Cathartic taken as directed,Yes,26,86.7
+Cathartic taken as directed,No,4,13.3
+Barium sulfate taken as directed,Yes,27,90.0
+Barium sulfate taken as directed,No,3,10.0
+Iodinated oral contrast taken as directed,Yes,28,93.3
+Iodinated oral contrast taken as directed,No,2,6.7
+Series by recovered position,supine,31,51.7
+Series by recovered position,prone,28,46.7
+Series by recovered position,decubitus,1,1.7
+Age,not provided by the collection,,
+Height,not provided by the collection,,
+Weight / BMI,not provided by the collection,,

@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ctc-core"
+version = "0.1.0.dev0"
+description = "Minimal algorithm core for CT colonography analysis (IORN-012)"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+license = { text = "MIT" }
+authors = [{ name = "Shuji Yamamoto", email = "yamamoto@lisit.jp" }]
+keywords = ["ct-colonography", "centerline", "fast-marching", "pericolonic-fat", "medical-imaging"]
+classifiers = [
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Medical Science Apps.",
+  "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+  "numpy>=1.26,<3",
+  "scipy>=1.11",
+  "pandas>=2.1",
+  "SimpleITK>=2.3",
+  "scikit-image>=0.22",
+  "networkx>=3.2",
+  "connected-components-3d>=3.12",
+  "kimimaro>=4.0",
+]
+
+[project.optional-dependencies]
+# Cohort download from the TCIA NBIA REST API.
+tcia = ["requests>=2.31"]
+# VGP unfold: GPU volume rendering, visualisation only (one figure panel).
+vgp = ["vtk==9.6.2"]
+# Tables and figures for the manuscript.
+figures = ["matplotlib>=3.8"]
+dev = ["pytest>=8.0", "ruff>=0.6"]
+
+[project.urls]
+Homepage = "https://github.com/Institute-of-One/ctc-core"
+
+[tool.setuptools.packages.find]
+include = ["ctc_core*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,360 @@
+{
+  "position_rule": {
+    "n_scored": 26,
+    "tag_correct": 25,
+    "orientation_correct": 21
+  },
+  "n_vendors": 4,
+  "pillar1": {
+    "colon_within_30mm_frac": {
+      "median": 0.86,
+      "q1": 0.5746,
+      "q3": 0.9607,
+      "n": 26
+    },
+    "colon_beyond_60mm_frac": {
+      "median": 0.0054,
+      "q1": 0.0,
+      "q3": 0.2117,
+      "n": 26
+    },
+    "dice_lumen_vs_gas": {
+      "median": 0.8822,
+      "q1": 0.8099,
+      "q3": 0.9624,
+      "n": 26
+    },
+    "jaccard_lumen_vs_gas": {
+      "median": 0.7893,
+      "q1": 0.6806,
+      "q3": 0.9275,
+      "n": 26
+    },
+    "lumen_recall_vs_gas": {
+      "median": 0.9948,
+      "q1": 0.9942,
+      "q3": 0.9957,
+      "n": 26
+    },
+    "lumen_precision_vs_gas": {
+      "median": 0.7932,
+      "q1": 0.6819,
+      "q3": 0.9331,
+      "n": 26
+    },
+    "msd_lumen_vs_gas_mm": {
+      "median": 3.31,
+      "q1": 0.635,
+      "q3": 6.1575,
+      "n": 26
+    },
+    "hd95_lumen_vs_gas_mm": {
+      "median": 24.105,
+      "q1": 2.29,
+      "q3": 33.42,
+      "n": 26
+    },
+    "centerline_inside_gas_frac": {
+      "median": 0.9796,
+      "q1": 0.8869,
+      "q3": 0.9881,
+      "n": 26
+    },
+    "length_ratio": {
+      "median": 0.969,
+      "q1": 0.7252,
+      "q3": 0.9952,
+      "n": 26
+    },
+    "ref_covered_frac": {
+      "median": 0.8865,
+      "q1": 0.6482,
+      "q3": 0.9769,
+      "n": 26
+    },
+    "n_series": 26,
+    "n_patients": 18,
+    "seg_failures": {
+      "Adaptive (reported)": 0,
+      "3-D fill only": 5,
+      "Slice-wise fill only": 0,
+      "Previous seed rule": 0
+    },
+    "reference_centerline_mm": {
+      "median": 1906.85,
+      "q1": 1791.625,
+      "q3": 1975.55,
+      "n": 26
+    },
+    "low_coverage_series": [
+      {
+        "series": "0018-2",
+        "coverage": 0.345,
+        "beyond_60mm": 0.346,
+        "dice": 0.902
+      },
+      {
+        "series": "0026-2",
+        "coverage": 0.501,
+        "beyond_60mm": 0.331,
+        "dice": 0.818
+      },
+      {
+        "series": "0009-1",
+        "coverage": 0.521,
+        "beyond_60mm": 0.383,
+        "dice": 0.807
+      },
+      {
+        "series": "0028-1",
+        "coverage": 0.54,
+        "beyond_60mm": 0.205,
+        "dice": 0.973
+      },
+      {
+        "series": "0022-2",
+        "coverage": 0.557,
+        "beyond_60mm": 0.259,
+        "dice": 0.628
+      },
+      {
+        "series": "0001-1",
+        "coverage": 0.56,
+        "beyond_60mm": 0.325,
+        "dice": 0.784
+      },
+      {
+        "series": "0014-1",
+        "coverage": 0.573,
+        "beyond_60mm": 0.223,
+        "dice": 0.721
+      },
+      {
+        "series": "0020-1",
+        "coverage": 0.578,
+        "beyond_60mm": 0.197,
+        "dice": 0.729
+      }
+    ],
+    "colon_reached": 15,
+    "colon_mostly_missed": 4,
+    "by_configuration": {
+      "Adaptive (reported)": {
+        "colon_within_30mm": {
+          "median": 0.86,
+          "q1": 0.5746,
+          "q3": 0.9607,
+          "n": 26
+        },
+        "colon_reached": 15,
+        "inside": {
+          "median": 0.9796,
+          "q1": 0.8869,
+          "q3": 0.9881,
+          "n": 26
+        }
+      },
+      "3-D fill only": {
+        "colon_within_30mm": {
+          "median": 0.7744,
+          "q1": 0.5448,
+          "q3": 0.9607,
+          "n": 26
+        },
+        "colon_reached": 13,
+        "inside": {
+          "median": 0.9775,
+          "q1": 0.757,
+          "q3": 0.9875,
+          "n": 26
+        }
+      },
+      "Slice-wise fill only": {
+        "colon_within_30mm": {
+          "median": 0.732,
+          "q1": 0.5577,
+          "q3": 0.9503,
+          "n": 26
+        },
+        "colon_reached": 12,
+        "inside": {
+          "median": 0.9622,
+          "q1": 0.7347,
+          "q3": 0.9874,
+          "n": 26
+        }
+      },
+      "Previous seed rule": {
+        "colon_within_30mm": {
+          "median": 0.4259,
+          "q1": 0.3871,
+          "q3": 0.4967,
+          "n": 26
+        },
+        "colon_reached": 0,
+        "inside": {
+          "median": 0.9642,
+          "q1": 0.9073,
+          "q3": 0.9813,
+          "n": 26
+        }
+      }
+    },
+    "adaptive_vs_3d": {
+      "improved": 5,
+      "degraded": 0,
+      "unchanged_within_0.02": 21
+    },
+    "3d_failures": {
+      "n": 5,
+      "reference_gas_ml_range": [
+        1615.0,
+        3345.0
+      ],
+      "retained_air_ml_range": [
+        35.0,
+        157.0
+      ],
+      "dice_max": 0.002,
+      "dice_min_of_the_rest": 0.721
+    },
+    "gas_volume_vs_reference": {
+      "n": 26,
+      "pearson_r": 0.841,
+      "relative_error": {
+        "median": 0.0222,
+        "q1": 0.0183,
+        "q3": 0.1641,
+        "n": 26
+      }
+    },
+    "slicewise_vs_adaptive": {
+      "worse_by_more_than_0.02": 11,
+      "better_by_more_than_0.02": 0,
+      "within_0.02": 15
+    }
+  },
+  "cohort_outcome": {
+    "batch_2026_08": {
+      "n_series": 60,
+      "produced": 55,
+      "failed": 19,
+      "length_mm": {
+        "median": 908.53,
+        "q1": 562.81,
+        "q3": 1112.31,
+        "n": 55
+      },
+      "patients_usable_both": 15,
+      "patients_produced_both": 26,
+      "series_with_bridges": 0,
+      "runtime_sec": {
+        "median": 26.94,
+        "q1": 21.605,
+        "q3": 31.11,
+        "n": 55
+      }
+    },
+    "reported": {
+      "n_series": 60,
+      "produced": 60,
+      "failed": 4,
+      "length_mm": {
+        "median": 1565.66,
+        "q1": 1027.545,
+        "q3": 1906.0775,
+        "n": 60
+      },
+      "patients_usable_both": 26,
+      "patients_produced_both": 30,
+      "series_with_bridges": 16,
+      "runtime_sec": {
+        "median": 70.215,
+        "q1": 54.635,
+        "q3": 80.175,
+        "n": 60
+      },
+      "slicewise_fallback": 6
+    }
+  },
+  "asymmetry_definitions": {
+    "fat_asymmetry": {
+      "icc21": -0.07,
+      "ci": [
+        -0.437,
+        0.311
+      ],
+      "icc21_reached": 0.089,
+      "ci_reached": [
+        -0.394,
+        0.52
+      ]
+    },
+    "fat_asymmetry_theta_halves": {
+      "icc21": -0.265,
+      "ci": [
+        -0.562,
+        0.104
+      ],
+      "icc21_reached": -0.254,
+      "ci_reached": [
+        -0.588,
+        0.191
+      ]
+    }
+  },
+  "fat_sampling": {
+    "ring_valid_fraction": {
+      "median": 1.0,
+      "q1": 1.0,
+      "q3": 1.0,
+      "n": 60
+    },
+    "sphere_valid_fraction": {
+      "median": 0.6118,
+      "q1": 0.4948,
+      "q3": 0.7456,
+      "n": 60
+    },
+    "ring_valid_fraction_min": 0.906,
+    "ring_all_stations_valid": 52,
+    "sphere_valid_fraction_min": 0.216
+  },
+  "agreement": {
+    "n_pairs": 28,
+    "n_pairs_reached": 19,
+    "bias_ci_excludes_zero": []
+  },
+  "phantoms": {
+    "grayscale_abs_error_max_mm": 0.114,
+    "binary_abs_error_max_mm": 0.45,
+    "mesh_volume_error_pct_range": [
+      -10.4,
+      -1.1
+    ],
+    "voxel_volume_error_pct_range": [
+      -33.2,
+      -14.2
+    ],
+    "sphericity_range": [
+      0.991,
+      0.997
+    ],
+    "grayscale_error_range_mm": [
+      -0.114,
+      0.107
+    ],
+    "binary_error_range_mm": [
+      -0.45,
+      0.05
+    ],
+    "step_edge_error_mm": {
+      "grayscale": [
+        1.0
+      ],
+      "binary": [
+        1.0
+      ]
+    }
+  }
+}
