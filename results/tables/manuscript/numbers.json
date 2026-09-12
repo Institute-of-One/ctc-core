@@ -366,8 +366,14 @@
   },
   "agreement": {
     "n_pairs": 28,
+    "n_patients_two_reference_series": 8,
     "n_pairs_reference_both_positions": 7,
     "n_pairs_coverage_criterion_both_positions": 3,
+    "n_pairs_reference_one_position": 10,
+    "n_pairs_no_reference": 11,
+    "patients_two_references_not_a_pair": [
+      "0003"
+    ],
     "sensitivity_analysis_reported": false,
     "bias_ci_excludes_zero": []
   },

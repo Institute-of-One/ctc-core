@@ -283,3 +283,11 @@ reference and `--min-pairs` refuses small subsets; both are pinned by tests.
 The earlier column also carried an obsolete header in the DOCX builder
 ("ICC(2,1), coverage >= 0.6"), from the withdrawn 0.6 coverage floor. That
 inconsistency is what led to the check.
+
+**Do not cite the 19-pair subset as evidence of robustness.** It was withdrawn
+because most of its pairs had never been scored against the reference. Adequate
+coverage in both positions is confirmed in 3 pairs only, which is why the
+manuscript states that the effect of incomplete coverage could not be examined.
+The per-patient audit (`results/tables/pair_reference_status.csv`, Additional
+file 2 of the manuscript) lists the Series Instance UIDs and what is known for
+each.

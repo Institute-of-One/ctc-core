@@ -81,7 +81,7 @@ column is deterministic.
 | agreement | `eval_prone_supine.py` | `prone_supine_agreement.csv`, `prone_supine_agreement_reached.csv` |
 | phantoms | `eval_polyp_phantoms.py` | `polyp_phantom_accuracy.csv` |
 | cohort | `make_cohort_table.py` | `cohort_characteristics.csv` |
-| tables | `make_tables.py` | `manuscript/table1-5_*.csv`, `manuscript/numbers.json` |
+| tables | `make_tables.py`, `pair_reference_status.py` | `manuscript/table1-5_*.csv`, `manuscript/numbers.json`, `pair_reference_status.csv` |
 | figures | `make_figures.py` | `results/figures/figure_{1,3,5,6}.{pdf,png,tif}` |
 | vgp | `make_vgp.py` | (unfold of the Figure 2 series under `data/vgp/`; needs `pip install -e .[vgp]` and a GPU) |
 | case_figures | `make_case_figures.py` | `results/figures/figure_{2,4}.{pdf,png,tif}` (needs image data) |

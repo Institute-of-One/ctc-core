@@ -28,7 +28,8 @@ agreement  Pillar 3: prone/supine ICC(2,1) and Bland-Altman. The coverage
            (make_tables records the counts).
 phantoms   Pillar 2: polyp measurement against exact geometric truth.
 cohort     Cohort characteristics from the TCIA clinical table.
-tables     Manuscript tables 1-5 and every in-text number (numbers.json).
+tables     Manuscript tables 1-5, every in-text number (numbers.json), and the
+           per-patient reference/coverage audit behind Table 4.
 figures    Figures 1, 3, 5 and 6, from the committed tables only.
 vgp        The VGP unfold of the Figure 2 series: that one series is
            resampled to 0.5 mm and rendered on the GPU (needs the vgp extra,
@@ -126,6 +127,7 @@ def commands(raw_root: str, results: str) -> dict[str, list[list[str]]]:
         ],
         "tables": [
             ["make_tables.py", "--tables", T],
+            ["pair_reference_status.py", "--tables", T],
         ],
         "figures": [
             ["make_figures.py", "--tables", T, "--out", f"{results}/figures"],

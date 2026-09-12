@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -313,26 +314,31 @@ def main() -> None:
         "sphere_valid_fraction_min": round(float(idx_all["fat_valid_fraction"].min()), 3),
     }
     # How much of the paired cohort could be checked against the reference at
-    # all. The earlier sensitivity analysis ("whole colon reached, 19 pairs")
-    # counted series with no reference as adequate; on the reference itself only
-    # 3 pairs qualify, too few for agreement statistics, so none is reported.
-    idx_ok = idx_all[idx_all["ok"].astype(str).str.lower() == "true"]
-    cov_map = auto.set_index(["PatientID", "role"])["colon_beyond_60mm_frac"]
-    n_pairs_ref = n_pairs_cov = 0
-    for _pid, g in idx_ok.groupby("PatientID"):
-        pr = g[g["position"] == "prone"]
-        su = g[g["position"] == "supine"]
-        if len(pr) != 1 or len(su) != 1:
-            continue
-        cs = [cov_map.get((r["PatientID"], r["role"])) for r in
-              (pr.iloc[0], su.iloc[0])]
-        if all(c is not None and pd.notna(c) for c in cs):
-            n_pairs_ref += 1
-            if all(c < REACHED_FAR_MAX for c in cs):
-                n_pairs_cov += 1
+    # all (scripts/pair_reference_status.py writes the per-patient audit). The
+    # earlier sensitivity analysis ("whole colon reached, 19 pairs") counted
+    # series with no reference as adequate; on the reference itself only 3 pairs
+    # qualify, too few for agreement statistics, so none is reported.
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from pair_reference_status import build as pair_audit
+
+    pairs = pair_audit(t)
+    paired = pairs[pairs["paired"]]
     N["agreement"] = {"n_pairs": int(agr["n_pairs"].iloc[0]),
-                      "n_pairs_reference_both_positions": n_pairs_ref,
-                      "n_pairs_coverage_criterion_both_positions": n_pairs_cov,
+                      "n_patients_two_reference_series": int(
+                          (auto.groupby("PatientID").size() == 2).sum()),
+                      "n_pairs_reference_both_positions": int(paired["reference_both"].sum()),
+                      "n_pairs_coverage_criterion_both_positions": int(
+                          paired["criterion_both"].sum()),
+                      "n_pairs_reference_one_position": int(
+                          (paired["prone_has_reference"] ^ paired["supine_has_reference"]).sum()),
+                      "n_pairs_no_reference": int((~paired["prone_has_reference"]
+                                                   & ~paired["supine_has_reference"]).sum()),
+                      # Eight patients have two reference series, but 0003's two
+                      # series are both recorded supine, so only seven of them
+                      # form a prone/supine pair.
+                      "patients_two_references_not_a_pair": sorted(
+                          set(auto.groupby("PatientID").size()[lambda x: x == 2].index.str[-4:])
+                          - set(paired[paired["reference_both"]]["patient"])),
                       "sensitivity_analysis_reported": False,
                       "bias_ci_excludes_zero": [i for i in agr.index
                                                 if agr.loc[i, "bias_ci_lower"] > 0
