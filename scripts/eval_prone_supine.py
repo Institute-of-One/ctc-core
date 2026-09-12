@@ -65,38 +65,63 @@ def num(row: dict, key: str) -> float | None:
     return f if np.isfinite(f) else None
 
 
+def select_covered(
+    rows: list[dict],
+    coverage: dict[tuple[str, str], float | None],
+    max_unreached: float,
+) -> tuple[list[dict], list[str], list[str]]:
+    """Keep series whose coverage against the reference is known and adequate.
+
+    A series with no reference is dropped, not kept: its coverage was never
+    measured, and treating it as adequate is what made the earlier "whole colon
+    reached" subset meaningless -- most of its pairs had no reference at all.
+    """
+    keep: list[dict] = []
+    low: list[str] = []
+    no_ref: list[str] = []
+    for r in rows:
+        c = coverage.get((r["PatientID"], r["role"]))
+        tag = f"{r['PatientID'][-4:]}/{r['role']}"
+        if c is None:
+            no_ref.append(tag)
+        elif c > max_unreached:
+            low.append(f"{tag} ({c:.3f})")
+        else:
+            keep.append(r)
+    return keep, low, no_ref
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--indices", type=Path, default=Path("results/tables/indices.csv"))
     ap.add_argument("--out", type=Path, required=True)
     ap.add_argument("--max-unreached", type=float, default=None,
-                    help="drop series whose reference colon lies beyond 60 mm of the path "
-                         "by more than this share -- colon the path never reached "
-                         "(needs --coverage; series without a reference are kept)")
+                    help="keep only series whose reference colon lies beyond 60 mm of the "
+                         "path by no more than this share. Needs --coverage. A series "
+                         "without a reference is DROPPED: its coverage is unknown and "
+                         "cannot be assumed adequate")
     ap.add_argument("--coverage", type=Path,
                     default=Path("results/tables/eval_hqcolon_auto.csv"))
+    ap.add_argument("--min-pairs", type=int, default=3,
+                    help="refuse to report agreement below this many complete pairs")
     args = ap.parse_args()
 
     rows = [r for r in csv.DictReader(args.indices.open(encoding="utf-8"))
             if str(r.get("ok")).lower() == "true"]
 
     dropped_low_coverage: list[str] = []
-    if args.max_unreached is not None and args.coverage.exists():
+    dropped_no_reference: list[str] = []
+    if args.max_unreached is not None:
+        if not args.coverage.exists():
+            raise SystemExit(f"--max-unreached needs --coverage; {args.coverage} not found")
         cov = {
             # Share of the reference colon (gas and fluid) beyond 60 mm of the
-            # path, from eval_hqcolon.py. A definition, not a tuned cut: below
-            # 0.05 the path reached the whole colon.
+            # path, from eval_hqcolon.py. A definition, not a tuned cut.
             (r["PatientID"], r["role"]): num(r, "colon_beyond_60mm_frac")
             for r in csv.DictReader(args.coverage.open(encoding="utf-8"))
         }
-        keep = []
-        for r in rows:
-            c = cov.get((r["PatientID"], r["role"]))
-            if c is not None and c > args.max_unreached:
-                dropped_low_coverage.append(f"{r['PatientID'][-4:]}/{r['role']} ({c:.3f})")
-            else:
-                keep.append(r)
-        rows = keep
+        rows, dropped_low_coverage, dropped_no_reference = select_covered(
+            rows, cov, args.max_unreached)
 
     by_patient: dict[str, dict[str, list[dict]]] = defaultdict(lambda: defaultdict(list))
     for r in rows:
@@ -114,6 +139,9 @@ def main() -> None:
             excluded.append(f"{pid[-4:]} (prone={len(pr)}, supine={len(su)})")
 
     print(f"indices rows usable        : {len(rows)}")
+    if dropped_no_reference:
+        print(f"dropped, no reference      : {len(dropped_no_reference)}")
+        print(f"    {', '.join(dropped_no_reference)}")
     if dropped_low_coverage:
         print(f"dropped for low coverage   : {len(dropped_low_coverage)}")
         for d in dropped_low_coverage:
@@ -123,8 +151,9 @@ def main() -> None:
         print(f"patients excluded          : {len(excluded)}")
         for e in excluded:
             print(f"    {e}")
-    if len(paired) < 3:
-        raise SystemExit("too few pairs for agreement statistics")
+    if len(paired) < args.min_pairs:
+        raise SystemExit(f"{len(paired)} pairs is below --min-pairs {args.min_pairs}: "
+                         "agreement is not reported on this subset")
 
     out_rows = []
     print(f"\n{'index':32s} {'n':>3s} {'ICC(2,1) [95% CI]':>26s} "

@@ -491,3 +491,37 @@ Slice-wise fall-back lumens contain 1-2 L of non-colonic gas, including lung
 bases joined to the splenic flexure by the gas closing (precision 0.46-0.82 on
 the five fall-back series with a reference; Figure 4). The path and the
 gas-volume index, which uses unclosed gas, are not affected.
+
+---
+
+## 8.2 Use of the reference during development, and the held-out subset
+
+The reference was not held back while the pipeline was being built. Five series
+(0001-1, 0003-2, 0004-2, 0007-1, 0030-1) were inspected against it in
+`scripts/diagnose_centerline_extent.py` and `diagnose_diameter_seeds.py` while
+the coverage problem was diagnosed, the whole-colon seed rule designed and its
+core radius (3 mm) chosen; the candidate seed rules were then scored against all
+26 series (`diagnose_seed_rules.py`) before the pipeline was changed. The 26
+series are therefore an evaluation against an external reference, **not an
+independent external validation**, and the manuscript says so.
+
+`make_tables.py` adds a held-out column: the 18 series of the 13 patients whose
+data no development decision saw.
+
+| Measure | All 26 series | Held out (18 series, 13 patients) |
+|---|---:|---:|
+| Dice, lumen vs gas-filled reference | 0.882 [0.810, 0.962] | 0.919 [0.810, 0.962] |
+| Colon within 30 mm of the path | 0.860 [0.575, 0.961] | 0.695 [0.561, 0.960] |
+| Colon beyond 60 mm | 0.005 [0.000, 0.212] | 0.193 [0.000, 0.221] |
+| Coverage criterion met (< 5 % beyond 60 mm) | 15 / 26 | 8 / 18 |
+| Length / whole-colon reference length | 0.975 [0.739, 0.996] | 0.909 [0.721, 0.997] |
+
+Coverage is the measure that moves: the development series are among the better
+covered. Segmentation quality (Dice) does not, which is consistent with the fill
+rule having been chosen on a failure mode rather than on these series.
+
+Also corrected here: the whole-colon length ratio and reference-centerline
+coverage now use the gas **and fluid** reference centerline (`length_ratio_gf`,
+`ref_gf_covered_frac`, median 1880 mm), not the gas-only one that the table had
+labelled "whole colon" (1907 mm). The gas-only columns remain in the CSV under
+their own label.

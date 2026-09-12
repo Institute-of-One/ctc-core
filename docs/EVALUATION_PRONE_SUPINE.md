@@ -258,3 +258,28 @@ Reading it:
 - **Asymmetry does not agree** under either definition; the earlier 0.23/0.53
   came from 35 mm rays on the unsmoothed path. No claim.
 - Distension indices are unchanged apart from their intervals.
+
+---
+
+## 2026-09-12 (third): the coverage sensitivity analysis is withdrawn
+
+The author checked Table 4 against the code and the series list. The "whole
+colon reached, 19 pairs" column was wrong: `eval_prone_supine.py` kept a series
+when its coverage was **unknown** (`c is not None and c > max_unreached`), so
+series without an HQColon reference passed the filter. Of the 28 pairs, 11 have
+no reference in either position, 10 in one only, and 7 in both; of those 7, both
+series meet the coverage criterion in 3.
+
+| Pairs (n = 28) | count |
+|---|---:|
+| reference in both positions | 7 |
+| coverage criterion met in both | 3 |
+| no reference in either position | 11 |
+
+Three pairs cannot support ICC, so **no coverage-restricted agreement is
+reported**. Table 4 now has one ICC column (28 pairs). The filter requires a
+reference and `--min-pairs` refuses small subsets; both are pinned by tests.
+
+The earlier column also carried an obsolete header in the DOCX builder
+("ICC(2,1), coverage >= 0.6"), from the withdrawn 0.6 coverage floor. That
+inconsistency is what led to the check.

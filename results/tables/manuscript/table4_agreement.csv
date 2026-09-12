@@ -1,14 +1,14 @@
-construct,index,unit,prone mean (SD),supine mean (SD),"ICC(2,1) [95% CI]",bias [95% CI],95% limits of agreement,"ICC(2,1), whole colon reached"
-Fat composition,Pericolonic fat attenuation (ring),HU,-98.0 (9.6),-97.5 (8.8),"0.958 [0.913, 0.980]","-0.53 [-1.56, 0.50]",-5.7 to 4.7,"0.934 [0.757, 0.978]"
-Fat amount and distribution,Fat fraction (ring),,0.533 (0.161),0.537 (0.141),"0.962 [0.920, 0.982]","-0.0039 [-0.0204, 0.0125]",-0.087 to 0.079,"0.948 [0.872, 0.980]"
-Fat amount and distribution,Left-right fat asymmetry (ring),,0.009 (0.056),0.021 (0.061),"-0.070 [-0.437, 0.311]","-0.0114 [-0.0447, 0.0218]",-0.179 to 0.157,"0.089 [-0.394, 0.520]"
-Previous definition (15 mm sphere),Fat attenuation (sphere),HU,-97.7 (4.9),-97.8 (3.7),"0.724 [0.484, 0.862]","0.11 [-1.16, 1.39]",-6.3 to 6.5,"0.822 [0.599, 0.927]"
-Previous definition (15 mm sphere),Fat fraction (sphere),,0.309 (0.063),0.324 (0.060),"0.580 [0.278, 0.779]","-0.0146 [-0.0363, 0.0072]",-0.125 to 0.096,"0.442 [0.033, 0.734]"
-Previous definition (15 mm sphere),Fat volume (sphere),mL,249 (211),272 (218),"-0.024 [-0.405, 0.354]","-22.5 [-141.3, 96.4]",-623 to 578,"0.105 [-0.302, 0.506]"
-Distension state and traced path,Gas volume,mL,1759 (779),1988 (642),"0.622 [0.331, 0.805]","-228.3 [-461.3, 4.7]",-1406 to 950,"0.470 [0.057, 0.752]"
-Distension state and traced path,Length-adjusted gas,mL/cm,13.9 (6.1),15.2 (6.8),"0.596 [0.299, 0.789]","-1.30 [-3.55, 0.94]",-12.7 to 10.1,"0.682 [0.337, 0.865]"
-Distension state and traced path,Collapse ratio,%,9.9 (9.2),11.4 (8.2),"0.136 [-0.250, 0.482]","-1.50 [-5.94, 2.93]",-23.9 to 20.9,"0.054 [-0.399, 0.486]"
-Distension state and traced path,Luminal radius,mm,9.03 (1.88),9.69 (2.13),"0.149 [-0.216, 0.484]","-0.661 [-1.673, 0.351]",-5.78 to 4.45,"0.293 [-0.196, 0.657]"
-Distension state and traced path,Distension quality score,,86.6 (11.1),84.5 (14.9),"0.169 [-0.219, 0.507]","2.05 [-4.52, 8.61]",-31.1 to 35.2,"0.153 [-0.308, 0.558]"
-Distension state and traced path,Traced centerline length,cm,136.3 (51.5),145.6 (55.0),"0.325 [-0.049, 0.619]","-9.37 [-33.44, 14.69]",-131.0 to 112.3,"0.345 [-0.077, 0.675]"
-Distension state and traced path,Centerline tortuosity index,,7.21 (4.13),7.70 (5.20),"0.218 [-0.172, 0.546]","-0.489 [-2.773, 1.794]",-12.03 to 11.05,"0.302 [-0.164, 0.657]"
+construct,index,unit,prone mean (SD),supine mean (SD),"ICC(2,1) [95% CI]",bias [95% CI],95% limits of agreement
+Fat composition,Pericolonic fat attenuation (ring),HU,-98.0 (9.6),-97.5 (8.8),"0.958 [0.913, 0.980]","-0.53 [-1.56, 0.50]",-5.7 to 4.7
+Fat amount and distribution,Fat fraction (ring),,0.533 (0.161),0.537 (0.141),"0.962 [0.920, 0.982]","-0.0039 [-0.0204, 0.0125]",-0.087 to 0.079
+Fat amount and distribution,Left-right fat asymmetry (ring),,0.009 (0.056),0.021 (0.061),"-0.070 [-0.437, 0.311]","-0.0114 [-0.0447, 0.0218]",-0.179 to 0.157
+Previous definition (15 mm sphere),Fat attenuation (sphere),HU,-97.7 (4.9),-97.8 (3.7),"0.724 [0.484, 0.862]","0.11 [-1.16, 1.39]",-6.3 to 6.5
+Previous definition (15 mm sphere),Fat fraction (sphere),,0.309 (0.063),0.324 (0.060),"0.580 [0.278, 0.779]","-0.0146 [-0.0363, 0.0072]",-0.125 to 0.096
+Previous definition (15 mm sphere),Fat volume (sphere),mL,249 (211),272 (218),"-0.024 [-0.405, 0.354]","-22.5 [-141.3, 96.4]",-623 to 578
+Distension state and traced path,Gas volume,mL,1759 (779),1988 (642),"0.622 [0.331, 0.805]","-228.3 [-461.3, 4.7]",-1406 to 950
+Distension state and traced path,Length-adjusted gas,mL/cm,13.9 (6.1),15.2 (6.8),"0.596 [0.299, 0.789]","-1.30 [-3.55, 0.94]",-12.7 to 10.1
+Distension state and traced path,Collapse ratio,%,9.9 (9.2),11.4 (8.2),"0.136 [-0.250, 0.482]","-1.50 [-5.94, 2.93]",-23.9 to 20.9
+Distension state and traced path,Luminal radius,mm,9.03 (1.88),9.69 (2.13),"0.149 [-0.216, 0.484]","-0.661 [-1.673, 0.351]",-5.78 to 4.45
+Distension state and traced path,Distension quality score,,86.6 (11.1),84.5 (14.9),"0.169 [-0.219, 0.507]","2.05 [-4.52, 8.61]",-31.1 to 35.2
+Distension state and traced path,Traced centerline length,cm,136.3 (51.5),145.6 (55.0),"0.325 [-0.049, 0.619]","-9.37 [-33.44, 14.69]",-131.0 to 112.3
+Distension state and traced path,Centerline tortuosity index,,7.21 (4.13),7.70 (5.20),"0.218 [-0.172, 0.546]","-0.489 [-2.773, 1.794]",-12.03 to 11.05

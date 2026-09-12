@@ -172,7 +172,11 @@ def figure_2_hqcolon(tables: Path, out: Path) -> None:
     rows.sort(key=lambda r: num(r["colon_within_30mm_frac"]))
     # "-1"/"-2" rather than P/S: the roles are series order, and P/S would read as
     # prone/supine, which they are not.
-    labels = [f"{r['PatientID'][-4:]}-{1 if r['role'] == 'primary' else 2}" for r in rows]
+    # An asterisk marks the series inspected against the reference during
+    # development (make_tables.DEVELOPMENT_SERIES): they are not held out.
+    development = {"0007-1", "0003-2", "0001-1", "0004-2", "0030-1"}
+    names = [f"{r['PatientID'][-4:]}-{1 if r['role'] == 'primary' else 2}" for r in rows]
+    labels = [f"{n}*" if n in development else n for n in names]
     y = np.arange(len(rows))
 
     metrics = [
@@ -198,7 +202,9 @@ def figure_2_hqcolon(tables: Path, out: Path) -> None:
     axes[0].set_yticks(y, labels)
     axes[0].tick_params(axis="y", labelsize=5.8)
     axes[0].set_ylabel("series (patient-series number), sorted by coverage")
-    fig.tight_layout(w_pad=1.2)
+    fig.tight_layout(w_pad=1.2, rect=(0, 0.035, 1, 1))
+    fig.text(0.012, 0.012, "* inspected against the reference during development",
+             fontsize=6, color=INK2)
     save(fig, out, "figure_3")
 
 

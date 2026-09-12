@@ -148,3 +148,25 @@ def test_bland_altman_rejects_too_few_pairs():
         bland_altman(np.array([1.0]), np.array([2.0]))
     with pytest.raises(ValueError):
         bland_altman(np.array([1.0, 2.0]), np.array([1.0]))
+
+def test_select_covered_drops_series_without_a_reference():
+    """A series with no reference is not adequately covered; it is unknown.
+
+    The earlier sensitivity analysis kept such series, so its "whole colon
+    reached" subset was mostly pairs the reference had never scored.
+    """
+    import sys
+    from pathlib import Path
+
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+    from eval_prone_supine import select_covered
+
+    rows = [{"PatientID": "p1", "role": "primary"},    # covered
+            {"PatientID": "p2", "role": "primary"},    # poorly covered
+            {"PatientID": "p3", "role": "primary"}]    # no reference
+    cov = {("p1", "primary"): 0.01, ("p2", "primary"): 0.40}
+    keep, low, no_ref = select_covered(rows, cov, 0.05)
+
+    assert [r["PatientID"] for r in keep] == ["p1"]
+    assert low == ["p2/primary (0.400)"]
+    assert no_ref == ["p3/primary"]

@@ -22,7 +22,10 @@ ablation   The hole-fill ablation behind the adaptive rule (3-D only,
            skeleton-extremes rule), each run over the cohort and scored
            against HQColon. Three more centerline runs.
 indices    Fat and quality indices for every series with a centerline.
-agreement  Pillar 3: prone/supine ICC(2,1) and Bland-Altman.
+agreement  Pillar 3: prone/supine ICC(2,1) and Bland-Altman. The coverage
+           sensitivity analysis is not run: only 3 of the 28 pairs have a
+           reference in both positions and adequate coverage in both
+           (make_tables records the counts).
 phantoms   Pillar 2: polyp measurement against exact geometric truth.
 cohort     Cohort characteristics from the TCIA clinical table.
 tables     Manuscript tables 1-5 and every in-text number (numbers.json).
@@ -113,9 +116,6 @@ def commands(raw_root: str, results: str) -> dict[str, list[list[str]]]:
         "agreement": [
             ["eval_prone_supine.py", "--indices", f"{T}/indices.csv",
              "--out", f"{T}/prone_supine_agreement.csv"],
-            ["eval_prone_supine.py", "--indices", f"{T}/indices.csv", "--max-unreached", "0.05",
-             "--coverage", f"{T}/eval_hqcolon_auto.csv",
-             "--out", f"{T}/prone_supine_agreement_reached.csv"],
         ],
         "phantoms": [
             ["eval_polyp_phantoms.py", "--out", f"{T}/polyp_phantom_accuracy.csv"],
