@@ -52,3 +52,6 @@ manuscript/**/*.synctex.gz
 
 # Generated manuscript builds (regenerate with manuscript/build_docx.py)
 manuscript/build/
+
+# PDFs downloaded while submitting (they carry the author's name)
+manuscript/*.pdf

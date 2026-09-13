@@ -167,14 +167,14 @@ def figure_2(tables: Path, work: Path, cl_root: Path, out: Path, vgp_root: Path)
     ax_a.set_yticks([])
     for s_ in ax_a.spines.values():
         s_.set_visible(False)
-    ax_a.text(0.01, 0.01, "R", transform=ax_a.transAxes, fontsize=7, color=mf.INK2)
-    ax_a.text(0.97, 0.01, "L", transform=ax_a.transAxes, fontsize=7, color=mf.INK2)
+    ax_a.text(0.01, 0.01, "R", transform=ax_a.transAxes, fontsize=8, color=mf.INK2)
+    ax_a.text(0.90, 0.01, "L", transform=ax_a.transAxes, fontsize=8, color=mf.INK2)
     panel_label(ax_a, "a  Gas cast and centerline")
     ax_a.text(0.99, 0.99, f"traced {arc[-1]:.0f} mm", transform=ax_a.transAxes, ha="right",
-              va="top", fontsize=6.5, color=mf.INK)
+              va="top", fontsize=8, color=mf.INK)
     cb = fig.colorbar(lc, ax=ax_a, fraction=0.035, pad=0.01)
-    cb.set_label("arc length (mm)", fontsize=6.5)
-    cb.ax.tick_params(labelsize=6)
+    cb.set_label("arc length (mm)", fontsize=8)
+    cb.ax.tick_params(labelsize=8)
 
     # (b) axial slice at the middle station: the ring 5-15 mm beyond the wall,
     # drawn in-plane (the measurement samples it along rays across the tangent).
@@ -205,8 +205,8 @@ def figure_2(tables: Path, work: Path, cl_root: Path, out: Path, vgp_root: Path)
     if valid[st]:
         ax_b.text(0.02, 0.02, f"ring fat {ring_hu[st]:.0f} HU, fraction "
                   f"{fat_n[st] / ring_n[st]:.2f}", transform=ax_b.transAxes, color="white",
-                  fontsize=6.5)
-    ax_b.text(0.02, 0.92, "A", transform=ax_b.transAxes, color="white", fontsize=7)
+                  fontsize=8)
+    ax_b.text(0.02, 0.92, "A", transform=ax_b.transAxes, color="white", fontsize=8)
 
     # (c) VGP unfold, rendered at 0.5 mm (make_vgp.py).
     ax_c = fig.add_subplot(gs[1, :])
@@ -233,8 +233,8 @@ def figure_2(tables: Path, work: Path, cl_root: Path, out: Path, vgp_root: Path)
     ax_d.grid(False)
     panel_label(ax_d, "d  Fat fraction, 5-15 mm beyond the wall")
     cb2 = fig.colorbar(im, ax=ax_d, fraction=0.02, pad=0.01)
-    cb2.set_label("fat fraction", fontsize=6.5)
-    cb2.ax.tick_params(labelsize=6)
+    cb2.set_label("fat fraction", fontsize=8)
+    cb2.ax.tick_params(labelsize=8)
     plt.setp(ax_d.get_xticklabels(), visible=False)
 
     # (e) ring fat attenuation per station.
@@ -243,7 +243,7 @@ def figure_2(tables: Path, work: Path, cl_root: Path, out: Path, vgp_root: Path)
     med = float(np.nanmedian(ring_hu))
     ax_e.axhline(med, color=mf.INK2, linewidth=0.7, linestyle=(0, (3, 2)))
     ax_e.text(0.99, 0.95, f"dashed: median {med:.1f} HU", transform=ax_e.transAxes,
-              fontsize=6.3, va="top", ha="right", color=mf.INK)
+              fontsize=8, va="top", ha="right", color=mf.INK)
     ax_e.axvline(s[st], color=mf.ORANGE, linewidth=0.9)
     ax_e.set_xlabel("arc length s along the centerline (mm)")
     ax_e.set_ylabel("fat (HU)")
@@ -310,7 +310,7 @@ def figure_4(tables: Path, work: Path, cl_root: Path, out: Path) -> None:
         ax.contour(body[kz][::-1].astype(float), levels=[0.5], colors=[mf.BLUE],
                    linewidths=0.8, origin="lower")
         panel_label(ax, title)
-        ax.text(0.02, 0.93, "A", transform=ax.transAxes, color="white", fontsize=7)
+        ax.text(0.02, 0.93, "A", transform=ax.transAxes, color="white", fontsize=8)
 
     grey = ListedColormap(plt.cm.Greys(np.linspace(0.12, 0.35, 64)))
     dark = ListedColormap(plt.cm.Greys(np.linspace(0.45, 0.8, 64)))
@@ -331,8 +331,8 @@ def figure_4(tables: Path, work: Path, cl_root: Path, out: Path) -> None:
         colon_ml = float((air & lumen).sum()) * vox_ml
         other_ml = float((air & ~lumen).sum()) * vox_ml
         panel_label(ax, title)
-        ax.text(0.02, 0.02, f"traced colon {colon_ml:,.0f} mL; other gas {other_ml:,.0f} mL",
-                transform=ax.transAxes, fontsize=6.5, color=mf.INK)
+        ax.text(0.02, 0.02, f"traced colon {colon_ml:.0f} mL; other gas {other_ml:.0f} mL",
+                transform=ax.transAxes, fontsize=8, color=mf.INK)
     fig.tight_layout(h_pad=1.0, w_pad=1.0)
     mf.save(fig, out, "figure_4")
     print(f"    case {pid[-4:]}-{1 if role == 'primary' else 2}: slice {kz}; retained "

@@ -149,14 +149,15 @@
       }
     ],
     "coverage_criterion_met": 15,
-    "held_out": {
-      "development_series": [
+    "excluding_inspected_patients": {
+      "inspected_series": [
         "0007-1",
         "0003-2",
         "0001-1",
         "0004-2",
         "0030-1"
       ],
+      "independent": false,
       "n_series": 18,
       "n_patients": 13,
       "dice_lumen_vs_gas": {

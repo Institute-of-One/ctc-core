@@ -68,7 +68,11 @@ python scripts/run_all.py --raw-root . --results out_check    # compare, don't o
 ```
 
 Run-time columns (`*_sec`) differ between runs by construction; every other
-column is deterministic.
+column is deterministic. One file is larger than a re-run would make it: the
+committed `centerline_perturbation.csv` also carries the rows of four series
+that the first run included by mistake and the analysis excludes (see
+`docs/PLAN_CENTERLINE_PERTURBATION.md`, section 8); a re-run writes only the 56
+eligible series, and Tables 5-6 are the same either way.
 
 | Stage | Script(s) | Output in `results/tables/` |
 |---|---|---|
@@ -79,10 +83,11 @@ column is deterministic.
 | ablation | `run_centerline.py`, `eval_hqcolon.py` | `centerline_fill_*.csv`, `eval_hqcolon_fill_*.csv`, `centerline_seed_extremes.csv`, `eval_hqcolon_seed_extremes.csv` |
 | indices | `run_indices.py` | `indices.csv` |
 | agreement | `eval_prone_supine.py` | `prone_supine_agreement.csv`, `prone_supine_agreement_reached.csv` |
+| perturbation | `perturb_centerline.py`, `analyse_perturbation.py` | `centerline_perturbation.csv`, `manuscript/table5_perturbation_path.csv`, `manuscript/table6_perturbation_fat.csv`, `manuscript/perturbation_numbers.json` |
 | phantoms | `eval_polyp_phantoms.py` | `polyp_phantom_accuracy.csv` |
 | cohort | `make_cohort_table.py` | `cohort_characteristics.csv` |
-| tables | `make_tables.py`, `pair_reference_status.py` | `manuscript/table1-5_*.csv`, `manuscript/numbers.json`, `pair_reference_status.csv` |
-| figures | `make_figures.py` | `results/figures/figure_{1,3,5,6}.{pdf,png,tif}` |
+| tables | `make_tables.py`, `pair_reference_status.py` | `manuscript/table1-4_*.csv`, `manuscript/table5_phantoms.csv`, `manuscript/numbers.json`, `pair_reference_status.csv` |
+| figures | `make_figures.py` | `results/figures/figure_{1,3,5,6,7}.{pdf,png,tif}` |
 | vgp | `make_vgp.py` | (unfold of the Figure 2 series under `data/vgp/`; needs `pip install -e .[vgp]` and a GPU) |
 | case_figures | `make_case_figures.py` | `results/figures/figure_{2,4}.{pdf,png,tif}` (needs image data) |
 
@@ -113,6 +118,8 @@ compares against the prototype's own batch output, which is not distributed.
 | [docs/EVALUATION_HQCOLON.md](docs/EVALUATION_HQCOLON.md) | External validation against HQColon, including the hole-fill ablation and a rejected redesign. |
 | [docs/EVALUATION_PRONE_SUPINE.md](docs/EVALUATION_PRONE_SUPINE.md) | Prone/supine agreement of the fat and distension indices. |
 | [docs/EVALUATION_POLYPS.md](docs/EVALUATION_POLYPS.md) | Why polyp measurement is validated on phantoms, and the result. |
+| [docs/PLAN_CENTERLINE_PERTURBATION.md](docs/PLAN_CENTERLINE_PERTURBATION.md) | The centerline perturbation experiment as specified before any result was computed, with the record of where the run departed from it. |
+| [docs/USER_MANUAL.md](docs/USER_MANUAL.md) | Installation and running instructions, submitted with the article. |
 
 The documents are dated working records: where a later measurement overturned
 an earlier conclusion, the earlier text is kept and marked as such.

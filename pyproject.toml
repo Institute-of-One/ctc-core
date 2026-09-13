@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ctc-core"
-version = "0.1.0.dev0"
+version = "0.1.1"
 description = "Minimal algorithm core for CT colonography analysis (IORN-012)"
 readme = "README.md"
 requires-python = ">=3.10,<3.13"

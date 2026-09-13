@@ -1,0 +1,171 @@
+{
+  "n_series": 56,
+  "n_patients": 30,
+  "n_conditions": 8,
+  "bootstrap_samples": 2000,
+  "bootstrap_unit": "patient",
+  "by_condition": {
+    "A1_L10_b": {
+      "length_pct_median": 1.85,
+      "length_pct_ci": [
+        1.79,
+        1.9
+      ],
+      "abs_d_fat_hu_median": 0.309,
+      "abs_d_fat_fraction_median": 0.001,
+      "abs_d_asymmetry_median": 0.0039,
+      "outside_lumen_pct_median": 0.72,
+      "ring_valid_pct_median": 100.0,
+      "residual_rms_mm_median": 0.371
+    },
+    "A1_L10_n": {
+      "length_pct_median": 1.85,
+      "length_pct_ci": [
+        1.77,
+        1.92
+      ],
+      "abs_d_fat_hu_median": 0.218,
+      "abs_d_fat_fraction_median": 0.0009,
+      "abs_d_asymmetry_median": 0.0043,
+      "outside_lumen_pct_median": 0.58,
+      "ring_valid_pct_median": 100.0,
+      "residual_rms_mm_median": 0.37
+    },
+    "A1_L20_b": {
+      "length_pct_median": 1.67,
+      "length_pct_ci": [
+        1.61,
+        1.74
+      ],
+      "abs_d_fat_hu_median": 0.232,
+      "abs_d_fat_fraction_median": 0.0011,
+      "abs_d_asymmetry_median": 0.0062,
+      "outside_lumen_pct_median": 0.64,
+      "ring_valid_pct_median": 100.0,
+      "residual_rms_mm_median": 0.576
+    },
+    "A1_L20_n": {
+      "length_pct_median": 1.69,
+      "length_pct_ci": [
+        1.59,
+        1.79
+      ],
+      "abs_d_fat_hu_median": 0.174,
+      "abs_d_fat_fraction_median": 0.0009,
+      "abs_d_asymmetry_median": 0.0049,
+      "outside_lumen_pct_median": 0.57,
+      "ring_valid_pct_median": 100.0,
+      "residual_rms_mm_median": 0.576
+    },
+    "A2_L10_b": {
+      "length_pct_median": 7.11,
+      "length_pct_ci": [
+        6.91,
+        7.29
+      ],
+      "abs_d_fat_hu_median": 0.242,
+      "abs_d_fat_fraction_median": 0.0012,
+      "abs_d_asymmetry_median": 0.0046,
+      "outside_lumen_pct_median": 1.5,
+      "ring_valid_pct_median": 100.0,
+      "residual_rms_mm_median": 0.89
+    },
+    "A2_L10_n": {
+      "length_pct_median": 7.08,
+      "length_pct_ci": [
+        6.84,
+        7.33
+      ],
+      "abs_d_fat_hu_median": 0.214,
+      "abs_d_fat_fraction_median": 0.0013,
+      "abs_d_asymmetry_median": 0.0039,
+      "outside_lumen_pct_median": 1.18,
+      "ring_valid_pct_median": 100.0,
+      "residual_rms_mm_median": 0.888
+    },
+    "A2_L20_b": {
+      "length_pct_median": 6.51,
+      "length_pct_ci": [
+        6.36,
+        6.65
+      ],
+      "abs_d_fat_hu_median": 0.211,
+      "abs_d_fat_fraction_median": 0.0023,
+      "abs_d_asymmetry_median": 0.0089,
+      "outside_lumen_pct_median": 1.49,
+      "ring_valid_pct_median": 100.0,
+      "residual_rms_mm_median": 1.179
+    },
+    "A2_L20_n": {
+      "length_pct_median": 6.52,
+      "length_pct_ci": [
+        6.36,
+        6.72
+      ],
+      "abs_d_fat_hu_median": 0.255,
+      "abs_d_fat_fraction_median": 0.0023,
+      "abs_d_asymmetry_median": 0.0047,
+      "outside_lumen_pct_median": 1.22,
+      "ring_valid_pct_median": 100.0,
+      "residual_rms_mm_median": 1.178
+    }
+  },
+  "by_amplitude": {
+    "1mm": {
+      "length_pct_median": 1.78,
+      "length_pct_ci": [
+        1.74,
+        1.82
+      ],
+      "length_pct_range": [
+        1.01,
+        2.36
+      ],
+      "abs_d_fat_hu_median": 0.224,
+      "abs_d_fat_hu_max": 1.202,
+      "abs_d_fat_fraction_median": 0.001,
+      "abs_d_fat_fraction_max": 0.0067,
+      "abs_d_asymmetry_median": 0.0043,
+      "abs_d_asymmetry_max": 0.0547,
+      "outside_lumen_pct_median": 0.6,
+      "residual_rms_mm_median": 0.473
+    },
+    "2mm": {
+      "length_pct_median": 6.77,
+      "length_pct_ci": [
+        6.66,
+        6.92
+      ],
+      "length_pct_range": [
+        5.28,
+        8.85
+      ],
+      "abs_d_fat_hu_median": 0.226,
+      "abs_d_fat_hu_max": 1.693,
+      "abs_d_fat_fraction_median": 0.0017,
+      "abs_d_fat_fraction_max": 0.0103,
+      "abs_d_asymmetry_median": 0.0052,
+      "abs_d_asymmetry_max": 0.06,
+      "outside_lumen_pct_median": 1.38,
+      "residual_rms_mm_median": 1.033
+    }
+  },
+  "pooled": {
+    "length_pct_median": 3.82,
+    "length_pct_ci": [
+      3.72,
+      3.92
+    ],
+    "length_increased_in": 448,
+    "length_n": 448,
+    "abs_d_fat_hu_median": 0.225,
+    "abs_d_fat_hu_ci": [
+      0.18,
+      0.287
+    ],
+    "abs_d_fat_hu_q95": 0.714,
+    "control_ring_valid_pct_median": 100.0,
+    "perturbed_ring_valid_pct_median": 100.0,
+    "control_outside_lumen_pct_median": 0.0
+  }
+}

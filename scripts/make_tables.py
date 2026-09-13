@@ -35,11 +35,13 @@ import pandas as pd
 
 FAILED_BELOW_MM = 600.0
 REACHED_FAR_MAX = 0.05
-# Series inspected while the pipeline was being developed, with the reference in
-# view: the extent diagnosis and the seed-rule and core-radius choices were made
-# on them (scripts/diagnose_centerline_extent.py, diagnose_diameter_seeds.py).
-# Their patients are excluded from the held-out column, which is the part of the
-# reference set that no development decision has seen case by case.
+# Series inspected case by case while the pipeline was being developed, with the
+# reference in view: the extent diagnosis and the seed-rule and core-radius
+# choices were made on them (scripts/diagnose_centerline_extent.py,
+# diagnose_diameter_seeds.py). The additional column excludes their patients.
+# It is not an independent test set: the candidate seed rules were scored
+# against all 26 reference series before the pipeline was changed, so the
+# reference informed the choice for every series in the set.
 DEVELOPMENT_SERIES = ["0007-1", "0003-2", "0001-1", "0004-2", "0030-1"]
 DEVELOPMENT_PATIENTS = sorted({x.split("-")[0] for x in DEVELOPMENT_SERIES})
 SEG_FAILURE_DICE = 0.5
@@ -117,7 +119,7 @@ AGREEMENT = [
     ("Distension state and traced path", "collapse_ratio_pct", "Collapse ratio", "%", 1),
     ("Distension state and traced path", "luminal_radius_mm_median", "Luminal radius", "mm", 2),
     ("Distension state and traced path", "distension_quality_score",
-     "Distension quality score", "", 1),
+     "Exploratory distension score", "", 1),
     ("Distension state and traced path", "traced_centerline_length_cm",
      "Traced centerline length", "cm", 1),
     ("Distension state and traced path", "centerline_tortuosity_index",
@@ -171,7 +173,7 @@ def main() -> None:
              "Slice-wise fill only": t / "eval_hqcolon_fill_slicewise.csv",
              "Previous seed rule": t / "eval_hqcolon_seed_extremes.csv"}
     ev = {k: pd.read_csv(p) for k, p in evals.items() if p.exists()}
-    held = {"Held out (reported pipeline)":
+    held = {"Reported pipeline, inspected patients excluded":
             ev["Adaptive (reported)"][~ev["Adaptive (reported)"]["PatientID"]
                                       .str[-4:].isin(DEVELOPMENT_PATIENTS)]}
     cols = {**ev, **held}
@@ -201,12 +203,14 @@ def main() -> None:
         for r in low.itertuples()]
     N["pillar1"]["coverage_criterion_met"] = int(
         (auto["colon_beyond_60mm_frac"] < REACHED_FAR_MAX).sum())
-    # The reference was consulted during development on five series; the same
-    # 26 series are therefore not an independent test set. This is the part
-    # that no development decision saw.
-    ho = held["Held out (reported pipeline)"]
-    N["pillar1"]["held_out"] = {
-        "development_series": DEVELOPMENT_SERIES,
+    # The reference entered development twice over: five series were inspected
+    # case by case, and the candidate seed rules were scored on all 26. The
+    # column below only removes the first of those, so it is an additional
+    # analysis, not an independent validation.
+    ho = held["Reported pipeline, inspected patients excluded"]
+    N["pillar1"]["excluding_inspected_patients"] = {
+        "inspected_series": DEVELOPMENT_SERIES,
+        "independent": False,
         "n_series": int(len(ho)), "n_patients": int(ho["PatientID"].nunique()),
         "dice_lumen_vs_gas": stats(ho["dice_lumen_vs_gas"]),
         "colon_within_30mm_frac": stats(ho["colon_within_30mm_frac"]),

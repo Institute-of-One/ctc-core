@@ -33,21 +33,28 @@ import numpy as np  # noqa: E402
 BLUE, ORANGE, AQUA = "#2a78d6", "#eb6834", "#1baf7a"
 INK, INK2, GRID = "#0b0b0b", "#52514e", "#e6e5e1"
 
-# ERE: 85 mm half-page, 170 mm full-page, max height 225 mm, ~300 dpi.
+# This journal's artwork specification: width up to 174 mm (half 84 mm), height
+# up to 234 mm, lettering 8-12 pt at final size, bitmap line art 1200 dpi and
+# combination art 600 dpi, vector preferred with fonts embedded.
 MM = 1 / 25.4
+# 170 rather than 174 mm: the tight bounding box can add a millimetre or two for
+# text that overhangs the axes, and the limit is a limit.
 FULL_W = 170 * MM
-HALF_W = 85 * MM
+HALF_W = 84 * MM
+TIFF_DPI = 600
 
 plt.rcParams.update({
     "font.family": "DejaVu Sans",
-    "font.size": 7.5,
-    "axes.titlesize": 8.5,
-    "axes.labelsize": 7.5,
+    "font.size": 8,
+    "axes.titlesize": 9,
+    "axes.labelsize": 8,
     "axes.edgecolor": INK2,
     "axes.linewidth": 0.6,
     "axes.labelcolor": INK,
     "xtick.color": INK2,
     "ytick.color": INK2,
+    "xtick.labelsize": 8,
+    "ytick.labelsize": 8,
     "xtick.major.width": 0.6,
     "ytick.major.width": 0.6,
     "axes.spines.top": False,
@@ -80,7 +87,8 @@ def num(v) -> float | None:
 def save(fig, out: Path, name: str) -> None:
     out.mkdir(parents=True, exist_ok=True)
     for ext in ("tif", "pdf", "png"):
-        kw = {"pil_kwargs": {"compression": "tiff_lzw"}} if ext == "tif" else {}
+        kw = {"pil_kwargs": {"compression": "tiff_lzw"}, "dpi": TIFF_DPI} \
+            if ext == "tif" else {}
         if ext == "pdf":
             # No creation date: identical inputs must give byte-identical files,
             # so that a re-run shows up in git only when a figure really changed.
@@ -108,7 +116,11 @@ def figure_1_flow(tables: Path, out: Path) -> None:
     n_pairs = max(int(r["n_pairs"]) for r in agreement)
     n_unident = sum(1 for r in position if not r["position_combined"])
 
-    fig, ax = plt.subplots(figsize=(FULL_W, 110 * MM))
+    # Full width, and tall enough that 8 pt lettering fits inside the boxes.
+    fig, ax = plt.subplots(figsize=(FULL_W, 136 * MM))
+    # The default margins would leave the boxes 130 mm to live in; the flow chart
+    # needs the whole width for 8 pt lettering to fit inside them.
+    fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01)
     ax.set_axis_off()
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)
@@ -117,47 +129,49 @@ def figure_1_flow(tables: Path, out: Path) -> None:
         ax.add_patch(plt.Rectangle((x, y), w, h, facecolor="white",
                                    edgecolor=INK2, linewidth=0.7))
         ax.text(x + w / 2, y + h / 2, text, ha="center", va="center", color=INK,
-                fontsize=7, fontweight="bold" if bold else "normal", linespacing=1.35)
+                fontsize=8, fontweight="bold" if bold else "normal", linespacing=1.35)
 
     def arrow(x0, y0, x1, y1):
         ax.annotate("", xy=(x1, y1), xytext=(x0, y0),
                     arrowprops={"arrowstyle": "-|>", "color": INK2, "lw": 0.7,
                                 "shrinkA": 0, "shrinkB": 0, "mutation_scale": 7})
 
-    box(22, 86, 56, 11,
+    box(20, 87, 60, 10,
         "TCIA CT COLONOGRAPHY (ACRIN 6664)\n825 subjects, public, CC BY 3.0", bold=True)
-    arrow(50, 86, 50, 80)
-    box(18, 66, 64, 14,
+    arrow(50, 87, 50, 79)
+    box(13, 64, 74, 15,
         "Deterministic selection: first 30 patients by PatientID\n"
         f"with >= 2 axial series  ->  {n_patients} patients, {n_series} series\n"
         "resampled to 1.0 mm isotropic", bold=False)
-    arrow(50, 66, 50, 60)
-    box(18, 47, 64, 13,
+    arrow(50, 64, 50, 57)
+    box(13, 43, 74, 14,
         "Headless pipeline, no human readers\n"
         f"centerline produced for {n_series} of {n_series} series\n"
         "quality indices and pericolonic fat map for every series")
 
     # three pillars
-    for x in (16.5, 50, 83.5):
-        arrow(50, 47, x, 42)
-    box(1.5, 12, 30, 30,
+    for x in (17, 50, 83):
+        arrow(50, 43, x, 38)
+    box(1, 14, 32, 24,
         "Pillar 1: external reference\n\n"
         f"HQColon masks for\n{n_ref} series ({n_ref_pat} patients)\n\n"
         "Dice, surface distance,\ncenterline coverage")
-    box(35, 12, 30, 30,
+    box(34, 14, 32, 24,
         "Pillar 2: polyp measurement\n\n"
         "geometric phantoms,\nexact ground truth\n\n"
         "diameter, volume,\nsphericity")
-    box(68.5, 12, 30, 30,
+    box(67, 14, 32, 24,
         "Pillar 3: prone/supine\n\n"
-        f"position recovered from DICOM,\n{n_pairs} patients paired\n\n"
+        f"position from the DICOM header,\n{n_pairs} patients paired\n\n"
         "ICC(2,1),\nBland-Altman")
-    ax.text(50, 4,
-            f"Excluded from pairing: 2 patients (one with a series in decubitus position "
-            f"[n = {n_unident}]; one with both series recorded as supine).\n"
-            "In-vivo polyp comparison not possible: 3 annotated lesions in the cohort "
-            "and no 3-D coordinate in any annotation.",
-            ha="center", va="center", fontsize=6.3, color=INK2, linespacing=1.4)
+    ax.text(50, 5.5,
+            # Wrapped by hand: at 8 pt a long line overhangs the axes, and the
+            # tight bounding box then pushes the figure past the width limit.
+            f"Excluded from pairing: 2 patients (one with a series in decubitus\n"
+            f"position [n = {n_unident}]; one with both series recorded as supine).\n"
+            "In-vivo polyp comparison not possible: 3 annotated lesions in the\n"
+            "cohort and no 3-D coordinate in any annotation.",
+            ha="center", va="center", fontsize=8, color=INK2, linespacing=1.4)
     save(fig, out, "figure_1")
 
 
@@ -172,8 +186,9 @@ def figure_2_hqcolon(tables: Path, out: Path) -> None:
     rows.sort(key=lambda r: num(r["colon_within_30mm_frac"]))
     # "-1"/"-2" rather than P/S: the roles are series order, and P/S would read as
     # prone/supine, which they are not.
-    # An asterisk marks the series inspected against the reference during
-    # development (make_tables.DEVELOPMENT_SERIES): they are not held out.
+    # An asterisk marks the series inspected case by case against the reference
+    # during development (make_tables.DEVELOPMENT_SERIES). The rest are not an
+    # independent set either: the candidate seed rules were scored on all 26.
     development = {"0007-1", "0003-2", "0001-1", "0004-2", "0030-1"}
     names = [f"{r['PatientID'][-4:]}-{1 if r['role'] == 'primary' else 2}" for r in rows]
     labels = [f"{n}*" if n in development else n for n in names]
@@ -193,18 +208,18 @@ def figure_2_hqcolon(tables: Path, out: Path) -> None:
                    edgecolors="white", linewidths=0.5)
         med = float(np.median(vals))
         ax.axvline(med, color=INK2, linewidth=0.7, linestyle=(0, (3, 2)), zorder=2)
-        ax.text(med, len(rows) - 0.2, f" median {med:.3f}", color=INK, fontsize=6.5,
+        ax.text(med, len(rows) - 0.2, f" median {med:.3f}", color=INK, fontsize=8,
                 ha="left", va="bottom")
         ax.set_xlim(0, 1.02)
         ax.set_title(title, color=INK, loc="left")
         ax.set_xlabel("fraction")
         ax.grid(axis="y", visible=False)
     axes[0].set_yticks(y, labels)
-    axes[0].tick_params(axis="y", labelsize=5.8)
+    axes[0].tick_params(axis="y", labelsize=8)
     axes[0].set_ylabel("series (patient-series number), sorted by coverage")
     fig.tight_layout(w_pad=1.2, rect=(0, 0.035, 1, 1))
-    fig.text(0.012, 0.012, "* inspected against the reference during development",
-             fontsize=6, color=INK2)
+    fig.text(0.012, 0.012, "* inspected case by case against the reference during "
+             "development", fontsize=8, color=INK2)
     save(fig, out, "figure_3")
 
 
@@ -272,7 +287,7 @@ def figure_3_agreement(tables: Path, out: Path) -> None:
         ax_a.hlines(yi, lo, hi, color=colour, linewidth=1.4, zorder=2)
         ax_a.scatter([icc], [yi], s=22, color=colour, marker=marker, zorder=3,
                      edgecolors="white", linewidths=0.6)
-        ax_a.text(1.04, yi, f"{icc:.2f}", va="center", ha="left", fontsize=6.3, color=INK)
+        ax_a.text(1.04, yi, f"{icc:.2f}", va="center", ha="left", fontsize=8, color=INK)
     ax_a.set_yticks(y, [PRETTY[k] for k in order])
     ax_a.axvline(0, color=INK2, linewidth=0.6)
     ax_a.set_xlim(-0.6, 1.0)
@@ -286,7 +301,7 @@ def figure_3_agreement(tables: Path, out: Path) -> None:
                markeredgecolor="white", label=lab)
         for lab, c, m in (COMPOSITION, AMOUNT, STATE, SPHERE)
     ]
-    ax_a.legend(handles=handles, loc="upper left", fontsize=6, handlelength=1.6,
+    ax_a.legend(handles=handles, loc="upper left", fontsize=8, handlelength=1.6,
                 bbox_to_anchor=(-0.02, -0.17), ncol=1)
 
     # (b) Bland-Altman for fat attenuation, paired by recovered position
@@ -311,7 +326,7 @@ def figure_3_agreement(tables: Path, out: Path) -> None:
                                (lo, f"-1.96 SD {lo:+.1f}", (0, (3, 2)))):
         ax_b.axhline(level, color=INK2, linewidth=0.7, linestyle=style, zorder=2)
         ax_b.text(mean.max(), level, f"  {text}",
-                  va="bottom", ha="left", fontsize=6.2, color=INK)
+                  va="bottom", ha="left", fontsize=8, color=INK)
     ax_b.axhline(0, color=GRID, linewidth=0.6, zorder=1)
     ax_b.set_xlabel("mean of prone and supine (HU)")
     ax_b.set_ylabel("prone - supine (HU)")
@@ -350,7 +365,7 @@ def figure_4_phantoms(tables: Path, out: Path) -> None:
         for vals, label, colour, marker in series:
             ax.plot(d, vals, color=colour, linewidth=1.4, marker=marker, markersize=4.5,
                     markeredgecolor="white", markeredgewidth=0.6, zorder=3)
-            ax.text(d[-1] + 0.4, vals[-1], label, color=INK, fontsize=6.5,
+            ax.text(d[-1] + 0.4, vals[-1], label, color=INK, fontsize=8,
                     va="center", ha="left")
         for thr in (6, 10):  # the CT colonography reporting thresholds
             ax.axvline(thr, color=GRID, linewidth=0.9, zorder=1)
@@ -362,10 +377,78 @@ def figure_4_phantoms(tables: Path, out: Path) -> None:
         ax.grid(axis="x", visible=False)
     ax_a.set_ylim(ax_a.get_ylim()[0], 0.19)  # headroom for the threshold labels
     for thr in (6, 10):  # inside the axes at the top: clear of the title and the data
-        ax_a.text(thr + 0.15, 0.185, f"{thr} mm", fontsize=6, color=INK2,
+        ax_a.text(thr + 0.15, 0.185, f"{thr} mm", fontsize=8, color=INK2,
                   ha="left", va="top")
     fig.tight_layout(w_pad=2.2)
     save(fig, out, "figure_6")
+
+
+# ---------------------------------------------------------------------------
+# Figure 7 -- centerline perturbation
+# ---------------------------------------------------------------------------
+
+
+def figure_7_perturbation(tables: Path, out: Path) -> None:
+    """Sensitivity of the reported indices to wobble of the input centerline.
+
+    One point per series and condition, paired with that series' own control.
+    Conditions are ordered by amplitude then wavelength; the two directions of
+    the local plane are drawn as separate markers, since they are two samples
+    of the same condition rather than anatomical sides.
+    """
+    # The same analysed set as Table 5: the series meeting the centerline success
+    # criterion. The run itself covered every series with a centerline.
+    eligible = {(r["PatientID"], r["role"]) for r in read(tables / "centerline_auto.csv")
+                if str(r.get("ok")) == "True" and (num(r.get("length_mm")) or 0) >= 600.0}
+    rows = [r for r in read(tables / "centerline_perturbation.csv")
+            if r["condition"] != "control" and (r["PatientID"], r["role"]) in eligible]
+    if not rows:
+        print("  figure_7 skipped (no perturbation results)")
+        return
+    n_series = len({(r["PatientID"], r["role"]) for r in rows})
+
+    conds = [(a, w) for a in (1.0, 2.0) for w in (10.0, 20.0)]
+    # Compact tick labels: at 8 pt the spelled-out pairs ran into each other.
+    labels = [f"{a:.0f} / {w:.0f}" for a, w in conds]
+    panels = [
+        ("traced_length_rel_change", 100.0, "traced length (%)",
+         "a  Traced length", BLUE),
+        ("d_fat_hu", 1.0, "fat attenuation (HU)",
+         "b  Ring fat attenuation", ORANGE),
+        ("points_outside_lumen_frac", 100.0, "points outside the lumen (%)",
+         "c  Path outside the lumen", AQUA),
+    ]
+
+    fig, axes = plt.subplots(1, 3, figsize=(FULL_W, 62 * MM))
+    rng = np.random.default_rng(7)
+    for ax, (key, scale, ylabel, title, colour) in zip(axes, panels, strict=True):
+        for i, (amp, wav) in enumerate(conds):
+            for j, direction in enumerate(("n", "b")):
+                vals = np.array([num(r[key]) for r in rows
+                                 if float(r["amplitude_mm"]) == amp
+                                 and float(r["wavelength_mm"]) == wav
+                                 and r["direction"] == direction
+                                 and num(r[key]) is not None]) * scale
+                if not vals.size:
+                    continue
+                x = i + (-0.16 if j == 0 else 0.16)
+                ax.scatter(x + rng.normal(0, 0.035, vals.size), vals, s=5,
+                           color=colour, alpha=0.45 if j == 0 else 0.8, linewidths=0,
+                           marker="o" if j == 0 else "^",
+                           label=f"direction {direction}" if i == 0 else None)
+                ax.plot([x - 0.11, x + 0.11], [np.median(vals)] * 2, color=INK,
+                        linewidth=1.1, zorder=4)
+        ax.axhline(0, color=INK2, linewidth=0.7, linestyle=(0, (3, 2)))
+        ax.set_xticks(range(len(conds)), labels)
+        ax.set_xlabel("amplitude / wavelength (mm)")
+        ax.set_ylabel(ylabel)
+        ax.set_title(title, color=INK, loc="left")
+        ax.grid(axis="x", visible=False)
+    axes[0].legend(loc="upper left", fontsize=8, handletextpad=0.2)
+    axes[0].set_title(f"a  Traced length (n = {n_series} series)", color=INK,
+                      loc="left")
+    fig.tight_layout(w_pad=1.4)
+    save(fig, out, "figure_7")
 
 
 def main() -> None:
@@ -378,6 +461,7 @@ def main() -> None:
     figure_2_hqcolon(args.tables, args.out)
     figure_3_agreement(args.tables, args.out)
     figure_4_phantoms(args.tables, args.out)
+    figure_7_perturbation(args.tables, args.out)
 
 
 if __name__ == "__main__":

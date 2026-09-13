@@ -58,7 +58,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 STAGES = ("download", "centerline", "position", "hqcolon", "ablation", "indices",
-          "agreement", "phantoms", "cohort", "tables", "figures", "vgp", "case_figures")
+          "agreement", "perturbation", "phantoms", "cohort", "tables", "figures", "vgp",
+          "case_figures")
 
 
 def commands(raw_root: str, results: str) -> dict[str, list[list[str]]]:
@@ -117,6 +118,16 @@ def commands(raw_root: str, results: str) -> dict[str, list[list[str]]]:
         "agreement": [
             ["eval_prone_supine.py", "--indices", f"{T}/indices.csv",
              "--out", f"{T}/prone_supine_agreement.csv"],
+        ],
+        # The pre-specified centerline perturbation experiment (Tables 5-6,
+        # Figure 7; docs/PLAN_CENTERLINE_PERTURBATION.md). It reuses the images,
+        # centerlines and indices of the stages above and changes only the path.
+        "perturbation": [
+            ["perturb_centerline.py", "--tables", T,
+             "--centerline-root", "data/centerline/corrected",
+             "--out", f"{T}/centerline_perturbation.csv"],
+            ["analyse_perturbation.py", "--perturbation", f"{T}/centerline_perturbation.csv",
+             "--centerline", f"{T}/centerline_auto.csv", "--out", f"{T}/manuscript"],
         ],
         "phantoms": [
             ["eval_polyp_phantoms.py", "--out", f"{T}/polyp_phantom_accuracy.csv"],

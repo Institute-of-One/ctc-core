@@ -9,6 +9,6 @@ Distension state and traced path,Gas volume,mL,1759 (779),1988 (642),"0.622 [0.3
 Distension state and traced path,Length-adjusted gas,mL/cm,13.9 (6.1),15.2 (6.8),"0.596 [0.299, 0.789]","-1.30 [-3.55, 0.94]",-12.7 to 10.1
 Distension state and traced path,Collapse ratio,%,9.9 (9.2),11.4 (8.2),"0.136 [-0.250, 0.482]","-1.50 [-5.94, 2.93]",-23.9 to 20.9
 Distension state and traced path,Luminal radius,mm,9.03 (1.88),9.69 (2.13),"0.149 [-0.216, 0.484]","-0.661 [-1.673, 0.351]",-5.78 to 4.45
-Distension state and traced path,Distension quality score,,86.6 (11.1),84.5 (14.9),"0.169 [-0.219, 0.507]","2.05 [-4.52, 8.61]",-31.1 to 35.2
+Distension state and traced path,Exploratory distension score,,86.6 (11.1),84.5 (14.9),"0.169 [-0.219, 0.507]","2.05 [-4.52, 8.61]",-31.1 to 35.2
 Distension state and traced path,Traced centerline length,cm,136.3 (51.5),145.6 (55.0),"0.325 [-0.049, 0.619]","-9.37 [-33.44, 14.69]",-131.0 to 112.3
 Distension state and traced path,Centerline tortuosity index,,7.21 (4.13),7.70 (5.20),"0.218 [-0.172, 0.546]","-0.489 [-2.773, 1.794]",-12.03 to 11.05
