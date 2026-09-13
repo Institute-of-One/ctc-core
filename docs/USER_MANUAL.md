@@ -5,7 +5,7 @@ readers' use come with a manual for installation and use. It is written for a
 reader who has not seen the project before, and every command below was run on
 the machine that produced the reported results.
 
-Version: 0.1.0, archived at https://doi.org/10.5281/zenodo.22720529.
+Version: 0.1.1, archived at https://doi.org/10.5281/zenodo.22731519.
 Licence: MIT. No restriction on use by non-academics.
 
 ## 1. What the software does
