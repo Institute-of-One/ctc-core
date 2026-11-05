@@ -210,7 +210,25 @@ def pdf_diffs(rerun: Path, committed: Path) -> list[str]:
     differing = [i for i, (x, y) in enumerate(zip(a, b, strict=True)) if x != y]
     if not differing:
         return []
-    return ["%d of %d part(s) of the drawing differ" % (len(differing), len(a))]
+
+    # Say which parts and what they are. "Three parts differ" sent two
+    # continuous-integration rounds guessing; a stream's kind is written in
+    # the dictionary just before it.
+    out = ["%d of %d part(s) of the drawing differ" % (len(differing), len(a))]
+    for i in differing[:6]:
+        kind = "the text between streams"
+        if i % 2 == 1:
+            head = a[i - 1][-400:] if i else b""
+            for key in (b"/FontFile", b"/FontFile2", b"/FontFile3", b"/Type1",
+                        b"/TrueType", b"/CIDFontType", b"/Image", b"/ToUnicode"):
+                if key in head:
+                    kind = "a stream declared %s" % key.decode()
+                    break
+            else:
+                kind = "a content stream"
+        out.append("    part %d (%s): %d bytes vs %d"
+                   % (i, kind, len(a[i]), len(b[i])))
+    return out
 
 
 def diffs(rerun: Path, committed: Path) -> list[str]:

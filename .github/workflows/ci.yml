@@ -103,7 +103,19 @@ jobs:
           python -m pip install -e ".[tcia,figures,dev]"
 
       - name: regenerate what needs no image data, and compare
-        run: python scripts/check_rerun.py --stages phantoms strata tables figures
+        run: python scripts/check_rerun.py --stages phantoms strata tables figures --keep
+
+      # What this runner drew, when it did not match. Reading a difference
+      # beats guessing at one: two rounds went by on the word "differs".
+      - name: keep what this machine produced, if it differed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rerun-${{ github.run_id }}
+          path: |
+            out_rerun/figures
+            out_rerun/tables
+          retention-days: 7
 
       - name: say what was not regenerated here
         run: |
