@@ -327,9 +327,14 @@ class FigureComparison(unittest.TestCase):
         self.assertTrue(check_rerun.diffs(a, b))
 
     def test_the_same_drawing_compressed_differently_agrees_in_a_pdf(self):
-        a = self.pdf("a.pdf", b"BT /F1 12 Tf (figure) Tj ET", 1)
-        b = self.pdf("b.pdf", b"BT /F1 12 Tf (figure) Tj ET", 9)
-        self.assertNotEqual(a.read_bytes(), b.read_bytes())
+        # Long enough that the two compression levels give different lengths,
+        # so the /Length beside the stream differs too: that number moved on
+        # the Linux runner and made this comparison report two figures as
+        # changed after the pixels had been shown identical.
+        drawing = b"BT /F1 12 Tf (figure) Tj ET\n" + b"0 0 m 1 1 l S\n" * 200
+        a = self.pdf("a.pdf", drawing, 1)
+        b = self.pdf("b.pdf", drawing, 9)
+        self.assertNotEqual(a.stat().st_size, b.stat().st_size)
         self.assertEqual(check_rerun.diffs(a, b), [])
 
     def test_a_changed_drawing_is_reported_in_a_pdf(self):

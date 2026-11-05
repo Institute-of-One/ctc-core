@@ -182,7 +182,24 @@ def pdf_diffs(rerun: Path, committed: Path) -> list[str]:
                 out.append(body)
             at = end
 
+    def plumbing(chunk: bytes) -> bytes:
+        """A chunk between streams, with what compression decides taken out.
+
+        The text around a stream carries its compressed length, and the table
+        at the end carries byte offsets into the file. Compress the same
+        drawing differently and both move, which is how the first version of
+        this comparison still reported two figures as different after the
+        pixels had been shown identical. Numbers inside a stream -- the
+        coordinates, the widths, the colours -- are not touched.
+        """
+        chunk = re.sub(rb"/Length\s+\d+", b"/Length N", chunk)
+        return re.sub(rb"\b\d{6,}\b", b"OFFSET", chunk)
+
     a, b = parts(rerun), parts(committed)
+    if a is not None and b is not None:
+        # Even indices are the text between streams; odd ones are inflated.
+        a = [plumbing(c) if i % 2 == 0 else c for i, c in enumerate(a)]
+        b = [plumbing(c) if i % 2 == 0 else c for i, c in enumerate(b)]
     if a is None or b is None:
         if rerun.read_bytes() == committed.read_bytes():
             return []
