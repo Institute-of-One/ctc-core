@@ -40,10 +40,10 @@ LOCK = ROOT / "requirements-lock.txt"
 DECIDES_RESULTS = (
     "numpy", "scipy", "pandas", "SimpleITK", "scikit-image", "networkx",
     "connected-components-3d", "kimimaro", "matplotlib",
-    # The figures are compared byte for byte by scripts/check_rerun.py, and
-    # matplotlib does not write those bytes alone: Pillow encodes the PNG and
-    # the TIFF, and fontTools subsets the fonts embedded in the PDF. Either
-    # one can change a compared byte with matplotlib itself unchanged.
+    # The figures are compared by scripts/check_rerun.py, and matplotlib does
+    # not draw them alone: Pillow decodes the PNG and the TIFF whose pixels
+    # are compared, and fontTools subsets the fonts whose outlines end up in
+    # the PDF. Either one can move a pixel with matplotlib itself unchanged.
     "pillow", "fonttools", "tifffile",
     # kimimaro is pinned above, but it does none of this arithmetic itself:
     # the distance transform, the path search and the hole filling behind the

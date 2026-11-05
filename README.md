@@ -132,7 +132,8 @@ python scripts/check_rerun.py --stages phantoms strata tables figures
 
 This copies the committed results, **deletes** the files those stages claim to
 write, runs them, and requires every file back: tables compared value by value
-(run-time `*_sec` columns excluded), figures byte for byte. Deleting first is
+(run-time `*_sec` columns excluded), figures by their pixels and by the
+drawing inside the PDF rather than by the compressed bytes. Deleting first is
 the point. Run the stages into a fresh directory and compare, and every file a
 stage did not write is identical to the copy it came from, so the comparison
 passes without having checked anything.

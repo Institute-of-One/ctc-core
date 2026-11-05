@@ -10,8 +10,8 @@ name: ci
 # * gates runs the checks, including their self-tests: a gate whose injections
 #   are not exercised is a gate nobody has seen fail.
 # * reproduce deletes the results four stages claim to write, re-runs those
-#   stages and requires the committed files back, byte for byte for the
-#   figures. The image stages need about 19 GB of DICOM and the HQColon masks,
+#   stages and requires the committed files back: the tables value by value,
+#   the figures by their pixels and by the drawing inside the PDF. The image stages need about 19 GB of DICOM and the HQColon masks,
 #   which are the reader's to download under their own licences, so they are
 #   not run here -- and that limit is stated rather than papered over.
 

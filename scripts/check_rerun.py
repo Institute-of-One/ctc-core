@@ -17,8 +17,11 @@ stops writing a result fails here, not silently.
 
 Tables are compared with ``compare_tables.py`` (run-time ``*_sec`` columns
 excluded by construction). JSON is compared value by value, excluding keys
-whose name ends in ``_sec``. Figures are compared byte for byte: matplotlib is
-given no creation date, so identical inputs must give identical files.
+whose name ends in ``_sec``. Figures are compared by what they draw: the
+pixels of a PNG or a TIFF, and the inflated streams of a PDF. The file bytes
+are not the figure -- the same drawing compressed by two zlib builds gives two
+files, which is what the first run of this check in continuous integration
+reported about five identical PNGs -- and anything else is compared as bytes.
 
 What this does not establish: that a stage computed its result rather than
 copying it. The committed tree stays readable while the stages run, so a
@@ -41,10 +44,13 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import shutil
 import subprocess
 import sys
 from pathlib import Path
+
+import numpy as np
 
 from compare_tables import compare as compare_csv
 from run_all import OUTPUTS, STAGES
@@ -108,11 +114,97 @@ def json_diffs(a: Path, b: Path) -> list[str]:
     return out
 
 
+def raster_diffs(rerun: Path, committed: Path) -> list[str]:
+    """Compare two images by their pixels rather than by their file bytes.
+
+    A PNG or a TIFF is a compressed container, and the compressor is not the
+    figure: the first run of this check in continuous integration regenerated
+    every table identically on Linux and reported all five PNGs as different,
+    because zlib there does not emit the same bytes as zlib on the machine the
+    committed figures were drawn on. The pixels were identical. Comparing the
+    pixels says what the check is for -- the figure was redrawn and it is the
+    same figure -- and says it on any machine.
+    """
+    from PIL import Image, UnidentifiedImageError
+
+    out: list[str] = []
+    try:
+        with Image.open(rerun) as a, Image.open(committed) as b:
+            if (a.size, a.mode) != (b.size, b.mode):
+                return ["%s %s vs %s %s" % (a.size, a.mode, b.size, b.mode)]
+            pa, pb = np.asarray(a), np.asarray(b)
+    except (UnidentifiedImageError, OSError, ValueError) as exc:
+        # Not a readable image: say so and fall back to the bytes rather than
+        # letting the check die on a file it cannot open.
+        if rerun.read_bytes() == committed.read_bytes():
+            return []
+        return ["not identical, and the pixels could not be read to compare "
+                "them instead (%s)" % type(exc).__name__]
+    if pa.shape != pb.shape:
+        out.append("pixel array %s vs %s" % (pa.shape, pb.shape))
+    elif not np.array_equal(pa, pb):
+        moved = int((pa != pb).any(axis=-1).sum()) if pa.ndim == 3 else int((pa != pb).sum())
+        out.append("%d pixel(s) differ" % moved)
+    return out
+
+
+def pdf_diffs(rerun: Path, committed: Path) -> list[str]:
+    """Compare two PDFs by what they draw, not by how it was compressed.
+
+    matplotlib writes its content in FlateDecode streams, so the same drawing
+    compressed by two zlib builds gives two files. Every stream is inflated
+    and the rest of the file is compared as it stands; a PDF this cannot take
+    apart is compared byte for byte instead, and says so.
+    """
+    import zlib
+
+    # The keyword, not the six letters: "endstream" ends with them too, and
+    # looking for the substring walked straight into the one that closes the
+    # stream it had just read.
+    opener = re.compile(rb"(?<![A-Za-z])stream\r?\n")
+
+    def parts(path: Path) -> list[bytes] | None:
+        raw = path.read_bytes()
+        out, at = [], 0
+        while True:
+            match = opener.search(raw, at)
+            if match is None:
+                out.append(raw[at:])
+                return out
+            end = raw.find(b"endstream", match.end())
+            if end < 0:
+                return None
+            out.append(raw[at:match.end()])
+            body = raw[match.end():end]
+            try:
+                out.append(zlib.decompress(body))
+            except zlib.error:
+                out.append(body)
+            at = end
+
+    a, b = parts(rerun), parts(committed)
+    if a is None or b is None:
+        if rerun.read_bytes() == committed.read_bytes():
+            return []
+        return ["not identical, and the streams could not be read to compare "
+                "the drawing instead"]
+    if len(a) != len(b):
+        return ["%d part(s) vs %d" % (len(a), len(b))]
+    differing = [i for i, (x, y) in enumerate(zip(a, b, strict=True)) if x != y]
+    if not differing:
+        return []
+    return ["%d of %d part(s) of the drawing differ" % (len(differing), len(a))]
+
+
 def diffs(rerun: Path, committed: Path) -> list[str]:
     if rerun.suffix == ".csv":
         return compare_csv(rerun, committed)
     if rerun.suffix == ".json":
         return json_diffs(rerun, committed)
+    if rerun.suffix in (".png", ".tif", ".tiff"):
+        return raster_diffs(rerun, committed)
+    if rerun.suffix == ".pdf":
+        return pdf_diffs(rerun, committed)
     if rerun.read_bytes() == committed.read_bytes():
         return []
     return ["%d bytes vs %d, not identical"

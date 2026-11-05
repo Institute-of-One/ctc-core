@@ -272,6 +272,74 @@ class TheComparisonCommand(unittest.TestCase):
         self.assertEqual(self.run_cli(), 1)
 
 
+class FigureComparison(unittest.TestCase):
+    """The same drawing, compressed differently, is the same figure.
+
+    The first continuous-integration run of check_rerun regenerated every
+    table identically on Linux and called all five PNGs different: zlib there
+    does not emit the bytes zlib emits on the machine the committed figures
+    were drawn on. These cases hold both directions of that -- a different
+    compressor is silent, different pixels are not -- without needing two
+    machines to show it.
+    """
+
+    def setUp(self) -> None:
+        self._tmp = tempfile.TemporaryDirectory()
+        self.dir = Path(self._tmp.name)
+
+    def tearDown(self) -> None:
+        self._tmp.cleanup()
+
+    def png(self, name: str, value: int, compress_level: int) -> Path:
+        from PIL import Image
+        path = self.dir / name
+        Image.new("RGB", (8, 8), (value, 10, 20)).save(
+            path, format="PNG", compress_level=compress_level)
+        return path
+
+    def pdf(self, name: str, content: bytes, level: int) -> Path:
+        import zlib
+        path = self.dir / name
+        body = zlib.compress(content, level)
+        head = ("%PDF-1.4\n1 0 obj\n<< /Length " + str(len(body))
+                + " >>\nstream\n").encode("ascii")
+        path.write_bytes(head + body + b"\nendstream\nendobj\n%%EOF\n")
+        return path
+
+    def test_the_same_pixels_compressed_differently_agree(self):
+        a = self.png("a.png", 100, 1)
+        b = self.png("b.png", 100, 9)
+        self.assertNotEqual(a.read_bytes(), b.read_bytes())
+        self.assertEqual(check_rerun.diffs(a, b), [])
+
+    def test_different_pixels_are_reported(self):
+        a = self.png("a.png", 100, 9)
+        b = self.png("b.png", 101, 9)
+        found = check_rerun.diffs(a, b)
+        self.assertTrue(found)
+        self.assertIn("pixel", found[0])
+
+    def test_an_image_of_another_size_is_reported(self):
+        from PIL import Image
+        a = self.png("a.png", 100, 9)
+        b = self.dir / "b.png"
+        Image.new("RGB", (9, 8), (100, 10, 20)).save(b, format="PNG")
+        self.assertTrue(check_rerun.diffs(a, b))
+
+    def test_the_same_drawing_compressed_differently_agrees_in_a_pdf(self):
+        a = self.pdf("a.pdf", b"BT /F1 12 Tf (figure) Tj ET", 1)
+        b = self.pdf("b.pdf", b"BT /F1 12 Tf (figure) Tj ET", 9)
+        self.assertNotEqual(a.read_bytes(), b.read_bytes())
+        self.assertEqual(check_rerun.diffs(a, b), [])
+
+    def test_a_changed_drawing_is_reported_in_a_pdf(self):
+        a = self.pdf("a.pdf", b"BT /F1 12 Tf (figure) Tj ET", 9)
+        b = self.pdf("b.pdf", b"BT /F1 12 Tf (other) Tj ET", 9)
+        found = check_rerun.diffs(a, b)
+        self.assertTrue(found)
+        self.assertIn("drawing", found[0])
+
+
 class WorkDirectory(unittest.TestCase):
     """The re-run directory is deleted and written again, so it is checked first."""
 
