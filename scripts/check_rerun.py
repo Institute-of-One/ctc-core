@@ -190,7 +190,11 @@ def pdf_diffs(rerun: Path, committed: Path) -> list[str]:
     # numbers, to four decimals of a PDF point: a ten-thousandth of a point is
     # three millionths of an inch, and anything that moves a mark by that much
     # moves it by less than a thousandth of a pixel.
-    NUMBER = re.compile(rb"(-?\d+\.\d+)")
+    # Integers as well as decimals, because the difference between two
+    # machines included a sign: one wrote "0 0 m" where the other wrote
+    # "0 -0 m". Negative zero is zero, and a regex that needed a decimal
+    # point compared the two as text and called them different.
+    NUMBER = re.compile(rb"(-?\d+(?:\.\d+)?)")
 
     def is_text(stream: bytes) -> bool:
         printable = sum(32 <= c < 127 or c in b"\n\r\t" for c in stream[:4096])
@@ -228,7 +232,13 @@ def pdf_diffs(rerun: Path, committed: Path) -> list[str]:
         coordinates, the widths, the colours -- are not touched.
         """
         chunk = re.sub(rb"/Length\s+\d+", b"/Length N", chunk)
-        return re.sub(rb"\b\d{6,}\b", b"OFFSET", chunk)
+        # The cross-reference table, the pointer to it, and a length written
+        # as an object of its own. All three are byte positions or sizes, and
+        # all three move when a stream gains a character. Object numbers are
+        # left alone: those are structure, and a change in them is a change.
+        chunk = re.sub(rb"(?m)^\d{10} \d{5} [nf]\s*?$", b"XREF", chunk)
+        chunk = re.sub(rb"startxref\s+\d+", b"startxref N", chunk)
+        return re.sub(rb"(obj\s*)\d+(\s*endobj)", rb"\1N\2", chunk)
 
     a, b = parts(rerun), parts(committed)
     if a is not None and b is not None:

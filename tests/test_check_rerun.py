@@ -356,6 +356,18 @@ class FigureComparison(unittest.TestCase):
         b = self.pdf("b.pdf", b"471.525950 0 l", 6)
         self.assertEqual(check_rerun.diffs(a, b), [])
 
+    def test_negative_zero_is_zero(self):
+        # The difference between the two machines, exactly: one wrote
+        # "0 0 m" where the other wrote "0 -0 m".
+        a = self.pdf("a.pdf", b"0 0 m 471.525949 0 l h", 6)
+        b = self.pdf("b.pdf", b"0 -0 m 471.525949 -0 l h", 6)
+        self.assertEqual(check_rerun.diffs(a, b), [])
+
+    def test_an_integer_that_changes_is_still_reported(self):
+        a = self.pdf("a.pdf", b"0 0 m 471 0 l h", 6)
+        b = self.pdf("b.pdf", b"0 0 m 472 0 l h", 6)
+        self.assertTrue(check_rerun.diffs(a, b))
+
     def test_a_changed_operator_is_reported_even_with_equal_numbers(self):
         a = self.pdf("a.pdf", b"0 -2.645751 m 2.645751 0 l h B", 6)
         b = self.pdf("b.pdf", b"0 -2.645751 m 2.645751 0 l h f", 6)
