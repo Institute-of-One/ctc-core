@@ -1,0 +1,61 @@
+{
+  "collinear_axes": {
+    "manufacturer~kernel": true,
+    "manufacturer~slice_thickness_mm": true,
+    "kernel~slice_thickness_mm": true
+  },
+  "note": "manufacturer, kernel and slice thickness are the same split in this collection, so they are reported once",
+  "exposure_mas_by_manufacturer": {
+    "GE MEDICAL SYSTEMS": {
+      "min": 6.0,
+      "max": 2824.0,
+      "n": 22,
+      "distinct": [
+        6,
+        152,
+        193,
+        2254,
+        2339,
+        2343,
+        2351,
+        2372,
+        2421,
+        2433,
+        2510,
+        2583,
+        2596,
+        2632,
+        2824
+      ]
+    },
+    "Philips": {
+      "min": 62.0,
+      "max": 100.0,
+      "n": 4,
+      "distinct": [
+        62,
+        100
+      ]
+    },
+    "SIEMENS": {
+      "min": 50.0,
+      "max": 100.0,
+      "n": 30,
+      "distinct": [
+        50,
+        100
+      ]
+    },
+    "TOSHIBA": {
+      "min": 75.0,
+      "max": 75.0,
+      "n": 4,
+      "distinct": [
+        75
+      ]
+    }
+  },
+  "exposure_usable_as_a_dose_axis": false,
+  "exposure_why_not": "within one model at one tube current the field takes three clusters three orders of magnitude apart, so it records different quantities on different series",
+  "ctdivol_available": false
+}

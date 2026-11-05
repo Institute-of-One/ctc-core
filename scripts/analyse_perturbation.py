@@ -23,6 +23,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 BOOTSTRAP = 2000
 SEED = 20260912
 
@@ -110,6 +114,10 @@ def main() -> None:
         # per-condition file and is given in the legend.
         if cond == "control":
             label = "Control"
+        elif g['direction'].iloc[0] == 'iid':
+            # The independent displacement has no wavelength: it has no
+            # spatial scale, which is the property it is run to contrast.
+            label = f"{g['amplitude_mm'].iloc[0]:.0f} mm / independent"
         else:
             label = (f"{g['amplitude_mm'].iloc[0]:.0f} mm / "
                      f"{g['wavelength_mm'].iloc[0]:.0f} mm / {g['direction'].iloc[0]}")

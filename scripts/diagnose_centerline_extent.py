@@ -25,6 +25,9 @@ import eval_hqcolon as ev  # noqa: E402
 
 from ctc_core.centerline import CenterlineConfig  # noqa: E402
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 DEFAULT_CASES = ["0007:primary", "0003:secondary", "0001:primary", "0004:secondary",
                  "0030:primary"]
 
@@ -40,6 +43,11 @@ def dist_to_path(path_kji: np.ndarray, grid: sitk.Image) -> np.ndarray:
 
 
 def main() -> None:
+    # Positional cases, so argparse would get in the way -- but a script that
+    # answers --help with a traceback is a script nobody can start.
+    if {"-h", "--help"} & set(sys.argv[1:]):
+        print(__doc__)
+        return
     cfg = CenterlineConfig.corrected()
     overlap = {(r["PatientID"][-4:], r["role"]): r
                for r in csv.DictReader(open("results/tables/hqcolon_overlap.csv", encoding="utf-8"))

@@ -1,0 +1,14 @@
+Condition,Background,Contact,"Noise, HU",Measurements,Left the lesion,Usable,"Diameter error, mm","95th percentile |error|, mm",Wrong size class,Wrong size class within 0.5 mm of a threshold
+air,air,none,0.0,10,0 / 10,10,"0.06 [0.03, 0.07]",0.28,0 / 10,0 / 6
+air_noise,air,none,15.1,200,0 / 200,200,"0.08 [0.04, 0.11]",0.29,0 / 200,0 / 120
+air_noise_white,air,none,15.1,200,0 / 200,200,"0.08 [0.04, 0.10]",0.28,0 / 200,0 / 120
+air_noise_double,air,none,30.1,200,0 / 200,200,"0.10 [0.06, 0.13]",0.26,0 / 200,0 / 120
+fluid,"fluid, 20 HU",none,0.0,10,2 / 10,8,"2.82 [2.75, 2.87]",3.61,2 / 8,1 / 4
+fluid_noise,"fluid, 20 HU",none,15.1,200,200 / 200,0,not measurable,-,-,-
+wall_tangent,"air, with wall","wall, at a point",0.0,10,0 / 10,10,"2.55 [2.35, 2.59]",2.87,3 / 10,2 / 6
+wall_tangent_noise,"air, with wall","wall, at a point",15.1,200,0 / 200,200,"2.60 [2.51, 2.67]",3.04,60 / 200,40 / 120
+wall_sessile,"air, with wall","wall, through the centre",0.0,10,9 / 10,1,"25.34 [25.34, 25.34]",25.34,0 / 1,-
+wall_sessile_noise,"air, with wall","wall, through the centre",15.1,200,180 / 200,20,"25.37 [25.37, 25.38]",25.39,0 / 20,-
+wall_sessile_thick_noise,"air, with wall","wall, through the centre",15.1,200,200 / 200,0,not measurable,-,-,-
+fold,"air, with wall","fold, two sides",0.0,10,1 / 10,9,"4.70 [4.29, 4.95]",5.02,4 / 9,3 / 5
+fold_noise,"air, with wall","fold, two sides",15.1,200,20 / 200,180,"4.72 [4.32, 4.99]",5.21,80 / 180,60 / 100

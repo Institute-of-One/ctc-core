@@ -1,0 +1,21 @@
+Measure,Prototype (2026-08 batch),Reported pipeline,Published,Source
+"Reference series evaluated, of 18",17 / 18,18 / 18,,
+No centerline produced,1 / 18,0 / 18,,
+"Colon within 30 mm of the path (whole colon, gas and fluid)","0.388 [0.033, 0.499]","0.695 [0.561, 0.960]",,
+Colon beyond 60 mm of the path (never visited),"0.503 [0.414, 0.791]","0.193 [0.000, 0.221]",,
+"Dice, lumen vs gas-filled reference","0.983 [0.000, 0.985]","0.919 [0.810, 0.962]",,
+Jaccard,"0.967 [0.000, 0.971]","0.850 [0.681, 0.927]",,
+Recall,"0.994 [0.000, 0.996]","0.995 [0.995, 0.996]",,
+Precision,"0.970 [0.000, 0.976]","0.853 [0.682, 0.933]",,
+"Mean symmetric surface distance, mm","0.16 [0.14, 96.96]","2.83 [0.64, 6.16]",,
+"95th-percentile Hausdorff distance, mm","1.0 [1.0, 213.1]","22.2 [2.3, 34.3]",,
+Centerline points inside reference colon,"0.982 [0.000, 0.999]","0.969 [0.859, 0.987]",,
+"Centerline length / reference length (whole colon, gas and fluid)","0.539 [0.072, 0.612]","0.909 [0.721, 0.997]",,
+Whole-colon reference centerline within 10 mm of the path,"0.512 [0.000, 0.591]","0.709 [0.582, 0.921]",,
+Centerline length / reference length (gas-filled reference),"0.541 [0.075, 0.609]","0.801 [0.720, 0.992]",,
+Segmentation failures (Dice < 0.5),5 / 17,0 / 18,,
+Met the coverage criterion,0 / 17,8 / 18,,
+"Traced centerline length over the cohort, cm","90.9 [56.3, 111.2]","156.6 [102.8, 190.6]",150.3 +/- 18.5,Utano 2021
+"Total colon length, cm",,,148.3 +/- 27.1,Alqarni 2024
+"Range of the traced length, cm",4.8-161.4,34.8-277.8,109.7-195.9,Utano 2021
+Series inside the published range,"14 / 60 (41 shorter, 0 longer)","30 / 60 (18 shorter, 12 longer)",109.7-195.9,Utano 2021

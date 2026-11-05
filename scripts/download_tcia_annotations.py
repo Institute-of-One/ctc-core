@@ -22,6 +22,10 @@ import json
 import urllib.request
 from pathlib import Path
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 BASE = "https://www.cancerimagingarchive.net/wp-content/uploads/"
 USER_AGENT = "ctc-core/0.1 (research; https://github.com/Institute-of-One/ctc-core)"
 
@@ -32,6 +36,12 @@ FILES = {
     "CT-Colonography_clinical-data_v01_20260824.tsv": "clinical data",
     # The clinical columns are coded (a0e9, i1e3, ...); unusable without this.
     "CT-Colonography_machine_readable_data_dictionary_v01_20260824-1.tsv": "data dictionary",
+    # The lesion columns are coded too, and the machine-readable dictionary
+    # above does not cover them -- it describes the clinical sheet. Their only
+    # documentation is this image, which the collection page links as the
+    # "Polyp description key table". scripts/report_cohort_lesions.py refuses
+    # to run without it rather than guessing what the numbers mean.
+    "Polyp-description-key-table.png": "lesion column key",
 }
 
 

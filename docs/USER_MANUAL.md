@@ -104,13 +104,19 @@ Stages, each of which can be run alone with `--stages`:
 | download | fetches the images, the reference masks and the annotations |
 | centerline | the reported pipeline and the prototype configuration |
 | position | recovers prone/supine from the DICOM header |
-| hqcolon | compares lumen and centerline with the reference |
+| hqcolon | compares lumen and centerline with the reference, and the prototype against the same reference |
 | ablation | the hole-fill and seed-rule ablations |
+| sweep | each threshold varied one at a time, masks and path rebuilt |
+| gas | attenuation of the colonic gas, and what each threshold admits |
+| coverage | coverage by position, and the volume the gas mask excludes |
 | indices | fat and distension indices for every series |
 | agreement | prone/supine ICC(2,1) and Bland-Altman |
-| phantoms | polyp measurement against exact geometry |
 | perturbation | the centerline perturbation experiment (Tables 5-6, Figure 7) |
-| cohort | cohort characteristics |
+| noise | the image noise of the cohort, measured from the images |
+| phantoms | polyp measurement against exact geometry, and under noise, fluid and contact |
+| cohort | cohort characteristics, and the annotated lesions |
+| clustered | patient-cluster intervals |
+| strata | the results by manufacturer, kernel, slice thickness and current |
 | tables | the article's tables and every in-text number |
 | figures | Figures 1, 3, 5, 6 and 7 from the committed tables |
 | vgp | the unfolded view of the illustrated series (needs the vgp extra) |
@@ -126,13 +132,28 @@ python scripts/analyse_perturbation.py        # writes tables 5 and 6 and their 
 ```
 
 Run times measured on an Intel Core i7-10700K with 32 GB: about 70 s per series
-for the centerline, 30 s for the indices, 30 s per series for the nine
-perturbation conditions, and 25 s on an NVIDIA GeForce RTX 2080 Ti for the
-unfolded view. The image stages over the whole cohort take a few hours.
+for the centerline, 30 s for the indices, 30 s per series for the ten
+perturbation conditions and their control, and 25 s on an NVIDIA GeForce
+RTX 2080 Ti for the unfolded view. The image stages over the whole cohort take
+a few hours.
 
 `--results <dir>` writes to another directory, so that a re-run can be compared
 with the committed results instead of overwriting them. Run-time columns differ
 between runs by construction; every other column is deterministic.
+
+The stages that need no image data can be checked in one command, which copies
+the committed results, deletes what those stages write, runs them and requires
+every file back:
+
+```
+python scripts/check_rerun.py --stages phantoms strata tables figures
+python scripts/compare_tables.py out_check/tables results/tables   # for the rest
+```
+
+Before the first stage, `run_all.py` compares the installed packages with
+`requirements-lock.txt` and stops if they differ: the committed results were
+produced with those versions, and a minor release of an array or plotting
+library can change a result without anything here changing.
 
 ## 7. Where the numbers in the article come from
 

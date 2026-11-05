@@ -28,6 +28,10 @@ import csv
 from collections import Counter
 from pathlib import Path
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 FIELDS = [
     ("a0e11", "Sex"),
     ("a0e9", "Ethnicity"),

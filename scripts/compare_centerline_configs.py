@@ -24,6 +24,10 @@ import statistics as st
 from collections import Counter, defaultdict
 from pathlib import Path
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 COMPLETE_LENGTH_MM = 1200.0
 PARTIAL_LENGTH_MM = 600.0
 

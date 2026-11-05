@@ -36,6 +36,9 @@ from ctc_core.fatmap import (  # noqa: E402
 from ctc_core.masks import build_body_air_masks  # noqa: E402
 from ctc_core.quality import QualityConfig, compute_quality  # noqa: E402
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 LOGGER = logging.getLogger("run_indices")
 
 QUALITY_FIELDS = [

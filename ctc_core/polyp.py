@@ -54,6 +54,19 @@ class PolypConfig:
     # information instead reduces the bias to 0.03-0.11 mm. See
     # tests/test_polyp.py and docs/PARAMETERS.md.
     diameter_from_grayscale: bool = True
+    # How far beyond the segmentation the grayscale iso-surface may be drawn,
+    # in voxels. The surface needs room outside the segmented voxels or it is
+    # clipped and the diameter comes out short; but every voxel of room is
+    # also room for a neighbouring structure to contribute to the surface.
+    # Measured on a 10 mm sphere at 1 mm isotropic with the cohort's noise,
+    # the diameter error in air and against a wall is -0.37 and -0.13 mm at 1
+    # voxel, +0.09 and +1.62 at 2, and +0.10 and +2.70 at 3. The shipped value
+    # is 3, which is the one every result in the paper was measured with; it
+    # buys the accuracy on a free lesion and pays for it next to tissue.
+    # Resolving that needs the surface confined to the lesion's own connected
+    # region rather than to a distance, which is a change to the method and
+    # not to this number.
+    surface_neighbourhood_voxels: int = 3
 
 
 @dataclass
@@ -199,6 +212,7 @@ def max_diameter_mm(
     spacing_zyx: tuple[float, float, float],
     crop: np.ndarray | None = None,
     iso_level: float | None = None,
+    neighbourhood_voxels: int = 3,
 ) -> tuple[float, np.ndarray | None, np.ndarray | None, float, float]:
     """Largest distance between surface points, plus surface area and volume.
 
@@ -230,9 +244,12 @@ def max_diameter_mm(
         if crop is not None and iso_level is not None:
             from scipy import ndimage
 
-            # Restrict to the lesion's neighbourhood so an adjacent structure
-            # cannot contribute vertices to the hull.
-            near = ndimage.binary_dilation(mask, structure=_ball(3))
+            # Restrict to the lesion's neighbourhood so a structure further
+            # away cannot contribute vertices to the hull. A structure closer
+            # than this still can: see PolypConfig.surface_neighbourhood_voxels
+            # for what that costs and why the number is not simply lowered.
+            near = ndimage.binary_dilation(
+                mask, structure=_ball(neighbourhood_voxels))
             far_value = iso_level - abs(iso_level) - 1000.0
             field = np.where(near, crop.astype(np.float32), far_value)
             padded = np.pad(field, 1, mode="constant", constant_values=far_value)
@@ -362,7 +379,9 @@ def measure_polyp(
 
         level = boundary_iso_level(crop, mask) if cfg.diameter_from_grayscale else None
         diameter, p1, p2, area, mesh_volume = max_diameter_mm(
-            mask, spacing_zyx, crop=crop if level is not None else None, iso_level=level
+            mask, spacing_zyx, crop=crop if level is not None else None,
+            iso_level=level,
+            neighbourhood_voxels=cfg.surface_neighbourhood_voxels,
         )
         # Prefer the iso-surface volume: it refers to the same surface as the
         # area and the diameter, and it is not biased by where the segmentation
@@ -379,6 +398,19 @@ def measure_polyp(
 
         si, cv, _ = shape_index_curvedness(crop, spacing_zyx, cfg.sigma_mm)
         surface = mask & ~_erode_once(mask)
+
+        # Whether the segmentation ran out of volume of interest. A lesion
+        # surrounded by gas is enclosed by the VOI and never reaches its edge;
+        # a lesion continuous with the colonic wall, or lying under fluid of
+        # similar attenuation, has no boundary for the segmentation to stop at,
+        # so the region grows until the VOI stops it. That is not a measurement
+        # with a large error, it is a measurement of a different object, and it
+        # is detectable at the time of measurement without knowing the truth.
+        # Reported, not acted on: the measurement is unchanged, and a caller
+        # decides whether to refuse it.
+        voi_shell = sphere & ~_erode_once(sphere)
+        escaped = int((mask & voi_shell).sum())
+        shell_n = int(voi_shell.sum())
 
         meas: dict[str, Any] = {
             "volume_mm3": round(volume_mm3, 2),
@@ -397,6 +429,9 @@ def measure_polyp(
             if surface.any()
             else None,
             "diameter_iso_level_hu": round(level, 1) if level is not None else None,
+            "voi_boundary_voxels": escaped,
+            "voi_boundary_fraction": round(escaped / shell_n, 4) if shell_n else None,
+            "touches_voi_boundary": bool(escaped > 0),
             "endpoint1_zyx": None if p1 is None else [float(v) for v in p1],
             "endpoint2_zyx": None if p2 is None else [float(v) for v in p2],
         }

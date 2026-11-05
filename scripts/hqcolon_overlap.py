@@ -20,6 +20,10 @@ import json
 from collections import Counter
 from pathlib import Path
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 FIELDS = [
     "PatientID", "role", "SeriesInstanceUID",
     "in_hqcolon", "hqcolon_subject_id", "hqcolon_number",

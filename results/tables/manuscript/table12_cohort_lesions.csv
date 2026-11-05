@@ -1,0 +1,4 @@
+Patient,Segment,"Reported size, mm",Size taken at,Histology,"Slice, supine","Slice, prone",In-plane coordinate
+0007,rectum,6,pathology,hyperplastic,not given,not given,not given
+0011,descending,9,colonoscopy,"other, specified",144,173,not given
+0019,sigmoid,9,pathology,tubular adenoma,277,not given,not given

@@ -43,6 +43,9 @@ import zipfile
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 LOGGER = logging.getLogger("download_tcia")
 
 NBIA_BASE = "https://services.cancerimagingarchive.net/nbia-api/services/v1"

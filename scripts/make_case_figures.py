@@ -54,6 +54,9 @@ plt = mf.plt
 from matplotlib.collections import LineCollection  # noqa: E402
 from matplotlib.colors import LinearSegmentedColormap, ListedColormap  # noqa: E402
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 # Sequential single-hue ramp for magnitudes (light -> dark blue).
 SEQ = LinearSegmentedColormap.from_list("seq_blue", ["#eef4fb", "#9cc3ec", mf.BLUE, "#0d3a73"])
 CT_WINDOW = (-300.0, 200.0)  # wide enough to separate air, fat and soft tissue

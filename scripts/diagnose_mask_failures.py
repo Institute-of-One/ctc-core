@@ -55,6 +55,9 @@ from ctc_core.masks import (  # noqa: E402
     touches_image_border,
 )
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 DUST_VOXELS = 500
 MIN_AIR_CC_VOXELS = 10_000
 

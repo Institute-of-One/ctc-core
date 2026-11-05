@@ -1,5 +1,8 @@
 # ctc-core
 
+[![ci](https://github.com/Institute-of-One/ctc-core/actions/workflows/ci.yml/badge.svg)](https://github.com/Institute-of-One/ctc-core/actions/workflows/ci.yml)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22720528.svg)](https://doi.org/10.5281/zenodo.22720528)
+
 Minimal, headless algorithm core for CT colonography (CTC) analysis, and the
 reproducible evaluation behind the IORN-012 manuscript.
 
@@ -35,7 +38,7 @@ Public data only. No image data, mask or per-case output is stored here;
 
 ## Install
 
-Python 3.10-3.12.
+Python 3.10-3.12. On Windows:
 
 ```
 py -3.12 -m venv .venv
@@ -43,8 +46,28 @@ py -3.12 -m venv .venv
 .venv\Scripts\python -m pip install -e ".[tcia,figures,dev]"
 ```
 
+On Linux or macOS:
+
+```
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-lock.txt
+.venv/bin/python -m pip install -e ".[tcia,figures,dev]"
+```
+
 `requirements-lock.txt` pins the versions every committed result was produced
-with.
+with. Continuous integration runs both blocks above, exactly as written, on a
+machine with nothing installed, and then runs the test command below: a working
+tree carries an editable install from months ago, so instructions that no
+longer work stay green there indefinitely.
+
+`scripts/run_all.py` checks the installed versions against the lock file before
+the first stage and stops if they differ, because a minor release of an array
+or plotting library can change a committed result without anything in this
+repository changing:
+
+```
+python scripts/check_environment.py --all
+```
 
 ## Reproduce
 
@@ -79,20 +102,48 @@ eligible series, and Tables 5-6 are the same either way.
 | download | `download_tcia.py`, `download_hqcolon.py`, `download_tcia_annotations.py` | (data under `cohort/raw/`, `data/`) |
 | centerline | `run_centerline.py` | `centerline_batch.csv` (prototype baseline), `centerline_auto.csv` (reported) |
 | position | `hqcolon_overlap.py`, `derive_patient_position.py`, `summarise_acquisition.py` | `hqcolon_overlap.csv`, `patient_position.csv`, `acquisition.csv` |
-| hqcolon | `eval_hqcolon.py` | `eval_hqcolon_auto.csv` |
+| hqcolon | `eval_hqcolon.py` | `eval_hqcolon_auto.csv` (reported), `eval_hqcolon_batch.csv` (the Table 4 comparator) |
 | ablation | `run_centerline.py`, `eval_hqcolon.py` | `centerline_fill_*.csv`, `eval_hqcolon_fill_*.csv`, `centerline_seed_extremes.csv`, `eval_hqcolon_seed_extremes.csv` |
+| sweep | `sweep_thresholds.py` | `threshold_sweep.csv`, `threshold_sweep.json` |
+| gas | `measure_gas_attenuation.py` | `gas_attenuation.csv`, `gas_attenuation.json` |
+| coverage | `analyse_coverage_anatomy.py` | `coverage_anatomy.csv`, `coverage_anatomy.json` |
 | indices | `run_indices.py` | `indices.csv` |
-| agreement | `eval_prone_supine.py` | `prone_supine_agreement.csv`, `prone_supine_agreement_reached.csv` |
+| agreement | `eval_prone_supine.py` | `prone_supine_agreement.csv` |
 | perturbation | `perturb_centerline.py`, `analyse_perturbation.py` | `centerline_perturbation.csv`, `manuscript/table5_perturbation_path.csv`, `manuscript/table6_perturbation_fat.csv`, `manuscript/perturbation_numbers.json` |
-| phantoms | `eval_polyp_phantoms.py` | `polyp_phantom_accuracy.csv` |
-| cohort | `make_cohort_table.py` | `cohort_characteristics.csv` |
-| tables | `make_tables.py`, `pair_reference_status.py` | `manuscript/table1-4_*.csv`, `manuscript/table5_phantoms.csv`, `manuscript/numbers.json`, `pair_reference_status.csv` |
+| noise | `measure_image_noise.py` | `image_noise.csv`, `image_noise.json` |
+| phantoms | `eval_polyp_phantoms.py`, `eval_polyp_realism.py` | `polyp_phantom_accuracy.csv`, `polyp_realism.csv`, `polyp_realism.json` |
+| cohort | `make_cohort_table.py`, `report_cohort_lesions.py` | `cohort_characteristics.csv`, `cohort_lesions.csv`, `cohort_lesions.json` |
+| clustered | `stats_clustered.py` | `clustered_statistics.csv`, `clustered_statistics.json` |
+| strata | `stratify_acquisition.py` | `stratified_acquisition.csv`, `stratified_acquisition.json` |
+| tables | `make_tables.py`, `pair_reference_status.py` | `manuscript/table1-12_*.csv`, `manuscript/table_s5-s8_*.csv`, `manuscript/numbers.json`, `pair_reference_status.csv` |
 | figures | `make_figures.py` | `results/figures/figure_{1,3,5,6,7}.{pdf,png,tif}` |
 | vgp | `make_vgp.py` | (unfold of the Figure 2 series under `data/vgp/`; needs `pip install -e .[vgp]` and a GPU) |
 | case_figures | `make_case_figures.py` | `results/figures/figure_{2,4}.{pdf,png,tif}` (needs image data) |
 
 `manuscript/numbers.json` holds every number quoted in the manuscript text,
-keyed by name.
+keyed by name. `python scripts/run_all.py --list-outputs` prints what each
+stage writes; that list is what the checks below hold the build to.
+
+### Checking a re-run against the committed results
+
+```
+python scripts/check_rerun.py --stages phantoms strata tables figures
+```
+
+This copies the committed results, **deletes** the files those stages claim to
+write, runs them, and requires every file back: tables compared value by value
+(run-time `*_sec` columns excluded), figures byte for byte. Deleting first is
+the point. Run the stages into a fresh directory and compare, and every file a
+stage did not write is identical to the copy it came from, so the comparison
+passes without having checked anything.
+
+The stages above need no image data. The rest need the DICOM series and the
+HQColon masks; for those, run them and compare directly:
+
+```
+python scripts/run_all.py --raw-root . --results out_check
+python scripts/compare_tables.py out_check/tables results/tables
+```
 
 Other tables in `results/tables/` are the record of method development
 (configuration sweeps, a rejected traversal redesign, mask diagnostics). They
@@ -127,5 +178,9 @@ an earlier conclusion, the earlier text is kept and marked as such.
 ## Author and licence
 
 Shuji Yamamoto (Institute of One / LISIT). Code: MIT licence (`LICENSE`).
-Please cite the software through its Zenodo DOI (`CITATION.cff`) and the data
-through the DOIs above.
+Please cite the data through the DOIs above, and the software through Zenodo.
+The badge and `CITATION.cff` carry the concept DOI
+([10.5281/zenodo.22720528](https://doi.org/10.5281/zenodo.22720528)), which
+always resolves to the newest release; the article cites the DOI of the one
+version its results were produced with, and `CITATION.cff` lists that version
+under `identifiers`.

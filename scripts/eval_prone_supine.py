@@ -28,6 +28,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from ctc_core.agreement import bland_altman, icc21  # noqa: E402
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 INDICES = [
     ("traced_centerline_length_cm", "cm"),
     ("centerline_tortuosity_index", ""),

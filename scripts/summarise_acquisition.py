@@ -17,6 +17,10 @@ from pathlib import Path
 
 import SimpleITK as sitk
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 TAGS = {
     "manufacturer": "0008|0070",
     "model": "0008|1090",

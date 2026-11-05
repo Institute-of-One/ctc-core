@@ -1,0 +1,15 @@
+{
+  "bootstrap_resamples": 10000,
+  "seed": 20261104,
+  "resampling_unit": "patient",
+  "inspected_patients_excluded_from_subset": [
+    "0001",
+    "0003",
+    "0004",
+    "0007",
+    "0030"
+  ],
+  "coverage_criterion": "fraction of reference colon volume beyond 60 mm of the path < 0.05",
+  "length_criterion_mm": 600.0,
+  "rows": 72
+}

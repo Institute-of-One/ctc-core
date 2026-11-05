@@ -26,8 +26,16 @@ import eval_hqcolon as ev  # noqa: E402
 from ctc_core.centerline import CenterlineConfig  # noqa: E402
 from ctc_core.masks import build_body_air_masks, label_air_components  # noqa: E402
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 
 def main() -> None:
+    # Positional cases, so argparse would get in the way -- but a script that
+    # answers --help with a traceback is a script nobody can start.
+    if {"-h", "--help"} & set(sys.argv[1:]):
+        print(__doc__)
+        return
     import matplotlib
 
     matplotlib.use("Agg")

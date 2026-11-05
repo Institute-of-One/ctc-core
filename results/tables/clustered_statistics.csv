@@ -1,0 +1,73 @@
+quantity,set,statistic,column,unit,n_series,n_patients,estimate,ci_lower,ci_upper
+"Dice, lumen vs gas reference",26 series / 18 patients,median,dice_lumen_vs_gas,,26,18,0.8822,0.8175,0.9623
+Jaccard vs gas reference,26 series / 18 patients,median,jaccard_lumen_vs_gas,,26,18,0.7893,0.6914,0.9274
+Recall vs gas reference,26 series / 18 patients,median,lumen_recall_vs_gas,,26,18,0.9948,0.9942,0.9956
+Precision vs gas reference,26 series / 18 patients,median,lumen_precision_vs_gas,,26,18,0.7932,0.6938,0.932
+Mean symmetric surface distance,26 series / 18 patients,median,msd_lumen_vs_gas_mm,mm,26,18,3.31,0.83,5.79
+95th-percentile Hausdorff distance,26 series / 18 patients,median,hd95_lumen_vs_gas_mm,mm,26,18,24.105,3.16,31.16
+Centerline points inside reference colon,26 series / 18 patients,median,centerline_inside_gas_frac,fraction,26,18,0.9796,0.9374,0.9875
+Reference colon within 30 mm of path,26 series / 18 patients,median,colon_within_30mm_frac,fraction,26,18,0.86,0.6359,0.9573
+Reference colon beyond 60 mm of path,26 series / 18 patients,median,colon_beyond_60mm_frac,fraction,26,18,0.0054,0.0,0.1968
+Centerline length ratio,26 series / 18 patients,median,length_ratio_gf,ratio,26,18,0.975,0.743,0.995
+Reference centerline covered,26 series / 18 patients,median,ref_gf_covered_frac,fraction,26,18,0.8527,0.652,0.9676
+"Centerline length ratio, gas-only reference",26 series / 18 patients,median,length_ratio,ratio,26,18,0.969,0.735,0.993
+"Dice, lumen vs gas reference",18 series / 13 patients,median,dice_lumen_vs_gas,,18,13,0.9187,0.8175,0.9624
+Jaccard vs gas reference,18 series / 13 patients,median,jaccard_lumen_vs_gas,,18,13,0.85,0.6914,0.9275
+Recall vs gas reference,18 series / 13 patients,median,lumen_recall_vs_gas,,18,13,0.995,0.9948,0.9965
+Precision vs gas reference,18 series / 13 patients,median,lumen_precision_vs_gas,,18,13,0.8527,0.6858,0.9335
+Mean symmetric surface distance,18 series / 13 patients,median,msd_lumen_vs_gas_mm,mm,18,13,2.825,0.57,5.7904
+95th-percentile Hausdorff distance,18 series / 13 patients,median,hd95_lumen_vs_gas_mm,mm,18,13,22.225,2.0,33.28
+Centerline points inside reference colon,18 series / 13 patients,median,centerline_inside_gas_frac,fraction,18,13,0.9695,0.87,0.9874
+Reference colon within 30 mm of path,18 series / 13 patients,median,colon_within_30mm_frac,fraction,18,13,0.6954,0.5733,0.9631
+Reference colon beyond 60 mm of path,18 series / 13 patients,median,colon_beyond_60mm_frac,fraction,18,13,0.1928,0.0,0.214
+Centerline length ratio,18 series / 13 patients,median,length_ratio_gf,ratio,18,13,0.9095,0.738,0.999
+Reference centerline covered,18 series / 13 patients,median,ref_gf_covered_frac,fraction,18,13,0.709,0.5809,0.9284
+"Centerline length ratio, gas-only reference",18 series / 13 patients,median,length_ratio,ratio,18,13,0.801,0.722,0.993
+Met the coverage criterion (<5% beyond 60 mm),26 series / 18 patients,proportion,colon_beyond_60mm_frac,,26,18,0.5769,0.3571,0.7826
+Met the coverage criterion (<5% beyond 60 mm),18 series / 13 patients,proportion,colon_beyond_60mm_frac,,18,13,0.4444,0.2105,0.6875
+Met the length criterion (>=600 mm),60 series / 30 patients,proportion,length_mm,,60,30,0.9333,0.8667,0.9833
+Met the length criterion (>=600 mm),50 series / 25 patients,proportion,length_mm,,50,25,0.92,0.84,0.98
+Traced centerline length,60 series / 30 patients,median,length_mm,mm,60,30,1565.66,1289.45,1851.94
+Traced centerline length,50 series / 25 patients,median,length_mm,mm,50,25,1387.72,1107.38,1795.14
+Fat attenuation (mean HU per series),60 series / 30 patients,median,fat_mean_hu_median,HU,60,30,-97.1222,-99.2268,-95.7904
+Fat attenuation (mean HU per series),60 series / 30 patients,min,fat_mean_hu_median,HU,60,30,-107.9067,,
+Fat attenuation (mean HU per series),60 series / 30 patients,p5,fat_mean_hu_median,HU,60,30,-104.5173,,
+Fat attenuation (mean HU per series),60 series / 30 patients,q1,fat_mean_hu_median,HU,60,30,-100.1339,,
+Fat attenuation (mean HU per series),60 series / 30 patients,q3,fat_mean_hu_median,HU,60,30,-95.1048,,
+Fat attenuation (mean HU per series),60 series / 30 patients,p95,fat_mean_hu_median,HU,60,30,-88.942,,
+Fat attenuation (mean HU per series),60 series / 30 patients,max,fat_mean_hu_median,HU,60,30,-83.2218,,
+Fat attenuation (mean HU per series),18-patient-excluded subset,median,fat_mean_hu_median,HU,50,25,-97.1222,-99.2292,-95.6078
+Fat attenuation (mean HU per series),18-patient-excluded subset,min,fat_mean_hu_median,HU,50,25,-107.9067,,
+Fat attenuation (mean HU per series),18-patient-excluded subset,p5,fat_mean_hu_median,HU,50,25,-104.9148,,
+Fat attenuation (mean HU per series),18-patient-excluded subset,q1,fat_mean_hu_median,HU,50,25,-99.9919,,
+Fat attenuation (mean HU per series),18-patient-excluded subset,q3,fat_mean_hu_median,HU,50,25,-93.9202,,
+Fat attenuation (mean HU per series),18-patient-excluded subset,p95,fat_mean_hu_median,HU,50,25,-88.6176,,
+Fat attenuation (mean HU per series),18-patient-excluded subset,max,fat_mean_hu_median,HU,50,25,-83.2218,,
+Lower limit of agreement: traced_centerline_length_cm,28 pairs,LoA,traced_centerline_length_cm,cm,56,28,-131.0115,-172.6402,-89.3828
+Upper limit of agreement: traced_centerline_length_cm,28 pairs,LoA,traced_centerline_length_cm,cm,56,28,112.2672,70.6385,153.8959
+Lower limit of agreement: centerline_tortuosity_index,28 pairs,LoA,centerline_tortuosity_index,,56,28,-12.03,-15.9795,-8.0805
+Upper limit of agreement: centerline_tortuosity_index,28 pairs,LoA,centerline_tortuosity_index,,56,28,11.051,7.1015,15.0005
+Lower limit of agreement: gas_volume_ml,28 pairs,LoA,gas_volume_ml,mL,56,28,-1406.1435,-1809.2363,-1003.0507
+Upper limit of agreement: gas_volume_ml,28 pairs,LoA,gas_volume_ml,mL,56,28,949.5364,546.4436,1352.6292
+Lower limit of agreement: length_adjusted_gas_ml_per_cm,28 pairs,LoA,length_adjusted_gas_ml_per_cm,mL/cm,56,28,-12.6644,-16.5521,-8.7767
+Upper limit of agreement: length_adjusted_gas_ml_per_cm,28 pairs,LoA,length_adjusted_gas_ml_per_cm,mL/cm,56,28,10.0554,6.1677,13.9431
+Lower limit of agreement: collapse_ratio_pct,28 pairs,LoA,collapse_ratio_pct,%,56,28,-23.9118,-31.5806,-16.243
+Upper limit of agreement: collapse_ratio_pct,28 pairs,LoA,collapse_ratio_pct,%,56,28,20.9047,13.2359,28.5735
+Lower limit of agreement: luminal_radius_mm_median,28 pairs,LoA,luminal_radius_mm_median,mm,56,28,-5.7763,-7.527,-4.0256
+Upper limit of agreement: luminal_radius_mm_median,28 pairs,LoA,luminal_radius_mm_median,mm,56,28,4.4548,2.7041,6.2055
+Lower limit of agreement: distension_quality_score,28 pairs,LoA,distension_quality_score,,56,28,-31.1444,-42.5033,-19.7855
+Upper limit of agreement: distension_quality_score,28 pairs,LoA,distension_quality_score,,56,28,35.2372,23.8783,46.5961
+Lower limit of agreement: ring_fat_mean_hu_median,28 pairs,LoA,ring_fat_mean_hu_median,HU,56,28,-5.7454,-7.5298,-3.961
+Upper limit of agreement: ring_fat_mean_hu_median,28 pairs,LoA,ring_fat_mean_hu_median,HU,56,28,4.6824,2.898,6.4668
+Lower limit of agreement: ring_fat_fraction_mean,28 pairs,LoA,ring_fat_fraction_mean,,56,28,-0.0871,-0.1155,-0.0587
+Upper limit of agreement: ring_fat_fraction_mean,28 pairs,LoA,ring_fat_fraction_mean,,56,28,0.0792,0.0508,0.1076
+Lower limit of agreement: fat_mean_hu_median,28 pairs,LoA,fat_mean_hu_median,HU,56,28,-6.3108,-8.5096,-4.112
+Upper limit of agreement: fat_mean_hu_median,28 pairs,LoA,fat_mean_hu_median,HU,56,28,6.5388,4.34,8.7376
+Lower limit of agreement: fat_fraction_mean,28 pairs,LoA,fat_fraction_mean,,56,28,-0.1246,-0.1622,-0.087
+Upper limit of agreement: fat_fraction_mean,28 pairs,LoA,fat_fraction_mean,,56,28,0.0955,0.0579,0.1331
+Lower limit of agreement: fat_volume_ml_sum,28 pairs,LoA,fat_volume_ml_sum,mL,56,28,-623.2758,-828.8911,-417.6605
+Upper limit of agreement: fat_volume_ml_sum,28 pairs,LoA,fat_volume_ml_sum,mL,56,28,578.3425,372.7272,783.9578
+Lower limit of agreement: fat_asymmetry,28 pairs,LoA,fat_asymmetry,,56,28,-0.1794,-0.2369,-0.1219
+Upper limit of agreement: fat_asymmetry,28 pairs,LoA,fat_asymmetry,,56,28,0.1565,0.099,0.214
+Lower limit of agreement: fat_asymmetry_theta_halves,28 pairs,LoA,fat_asymmetry_theta_halves,,56,28,-0.1102,-0.1548,-0.0656
+Upper limit of agreement: fat_asymmetry_theta_halves,28 pairs,LoA,fat_asymmetry_theta_halves,,56,28,0.1503,0.1057,0.1949

@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import math
 import logging
 import sys
 import time
@@ -45,6 +46,9 @@ from ctc_core.fatmap import (  # noqa: E402
 from ctc_core.masks import build_body_air_masks  # noqa: E402
 from ctc_core.quality import QualityConfig, path_length_mm, smooth_path  # noqa: E402
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 LOGGER = logging.getLogger("perturb")
 
 # Section 4 of the plan: 2 amplitudes x 2 wavelengths x 2 directions, plus the
@@ -54,6 +58,11 @@ AMPLITUDES_MM = (1.0, 2.0)
 WAVELENGTHS_MM = (10.0, 20.0)
 DIRECTIONS = ("n", "b")
 TAPER_MM = 15.0  # the displacement is zero at both end points
+# An independent wobble beside the correlated one. A sinusoid of amplitude A has an RMS of A/sqrt(2); the independent
+# displacement is scaled to the same RMS, so the two differ in their spatial
+# correlation and not in their size.
+IID_SCALE = 1.0 / math.sqrt(2.0)
+IID_SEED = 20261104
 # The centerline success criterion of this cohort: extraction without error and
 # a traced path of at least this length (scripts/make_tables.py FAILED_BELOW_MM).
 FAILED_BELOW_MM = 600.0
@@ -98,6 +107,25 @@ def perturb(xyz: np.ndarray, amplitude_mm: float, wavelength_mm: float,
     u = n_hat if direction == "n" else b_hat
     d = (amplitude_mm * taper(s) * np.sin(2.0 * np.pi * s / wavelength_mm))[:, None]
     return xyz + d * u
+
+
+def perturb_iid(xyz: np.ndarray, amplitude_mm: float, frame_sigma_mm: float,
+                seed: int) -> np.ndarray:
+    """Independent displacement at each point, matched in RMS to the sinusoid.
+
+    Magnitude and direction are both drawn per point, so this is the opposite
+    of the tapered sinusoid in exactly the property at issue: its spatial
+    correlation. The taper is the same, so both end points stay
+    where they were, and the frame is the same smoothed one, so nothing about
+    the frame distinguishes the two cases.
+    """
+    s = arc_length(xyz)
+    _t, n_hat, b_hat = centerline_frames(smooth_centerline(xyz, frame_sigma_mm))
+    rng = np.random.default_rng([seed, len(xyz)])
+    mag = rng.standard_normal(len(xyz)) * amplitude_mm * IID_SCALE
+    theta = rng.uniform(0.0, 2.0 * np.pi, len(xyz))
+    u = np.cos(theta)[:, None] * n_hat + np.sin(theta)[:, None] * b_hat
+    return xyz + (mag * taper(s))[:, None] * u
 
 
 def outside_lumen_fraction(xyz: np.ndarray, ct: sitk.Image, lumen: np.ndarray) -> float:
@@ -183,7 +211,12 @@ def main() -> None:
 
     conditions = [("control", None, None, None)] + [
         (f"A{a:.0f}_L{w:.0f}_{d}", a, w, d)
-        for a in AMPLITUDES_MM for w in WAVELENGTHS_MM for d in DIRECTIONS]
+        for a in AMPLITUDES_MM for w in WAVELENGTHS_MM for d in DIRECTIONS
+    ] + [
+        # The independent wobble asked for in review: no wavelength, because
+        # it has no spatial scale. Matched in RMS to the sinusoid of the same
+        # amplitude, so the pair differs in correlation and not in size.
+        (f"A{a:.0f}_IID", a, None, "iid") for a in AMPLITUDES_MM]
 
     rows: list[dict] = []
     for rec in records:
@@ -211,8 +244,12 @@ def main() -> None:
         control: dict = {}
         for name, amp, wav, direction in conditions:
             t0 = time.perf_counter()
-            pts = xyz if amp is None else perturb(
-                xyz, amp, wav, direction, f_cfg.frame_smooth_sigma_mm)
+            if amp is None:
+                pts = xyz
+            elif direction == "iid":
+                pts = perturb_iid(xyz, amp, f_cfg.frame_smooth_sigma_mm, IID_SEED)
+            else:
+                pts = perturb(xyz, amp, wav, direction, f_cfg.frame_smooth_sigma_mm)
             m = measure(pts, ct, ct_arr, body, air, lumen, q_cfg, f_cfg)
             if amp is None:
                 control = dict(m)

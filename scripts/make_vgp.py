@@ -43,6 +43,9 @@ from ctc_core.vgp import (  # noqa: E402
     compute_vgp_unfold_gpu_cube,
 )
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 
 def main() -> None:
     from make_case_figures import choose_pipeline_case

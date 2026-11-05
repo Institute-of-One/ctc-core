@@ -19,6 +19,10 @@ from pathlib import Path
 
 import pandas as pd
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 REACHED_FAR_MAX = 0.05  # share of the reference colon beyond 60 mm of the path
 
 

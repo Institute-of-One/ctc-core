@@ -42,6 +42,9 @@ from ctc_core.centerline import (  # noqa: E402
     compute_path_length_mm,
 )
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 CORE_MM = 3.0
 NEAR_MM = 30.0
 FAR_MM = 60.0

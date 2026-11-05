@@ -1,0 +1,36 @@
+{
+  "title": "ctc-core: minimal algorithm core for CT colonography analysis",
+  "description": "Headless algorithm core for CT colonography: body and gas masks with an adaptive hole fill, a bridge-graph and Fast Marching centerline, pericolonic fat mapping, distension and preparation descriptors, polyp measurement on a grayscale iso-surface, and the agreement statistics. Includes the pinned evaluation behind the IORN-012 manuscript: one entry point regenerates every table and figure from the public TCIA CT COLONOGRAPHY collection and the HQColon reference.",
+  "upload_type": "software",
+  "license": "MIT",
+  "version": "0.1.2",
+  "creators": [
+    {
+      "name": "Yamamoto, Shuji",
+      "affiliation": "Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan",
+      "orcid": "0000-0001-9211-1071"
+    }
+  ],
+  "keywords": [
+    "CT colonography",
+    "centerline",
+    "fast marching",
+    "pericolonic fat",
+    "polyp measurement",
+    "reproducibility"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.7937/K9/TCIA.2015.NWTESAY1",
+      "relation": "references",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.17605/OSF.IO/8TKPM",
+      "relation": "references",
+      "resource_type": "dataset",
+      "scheme": "doi"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "reported_body_threshold_hu": -300.0,
+  "reported_gas_threshold_hu": -700.0,
+  "gas_thresholds_hu": [
+    -800.0,
+    -700.0,
+    -600.0
+  ],
+  "body_thresholds_hu": [
+    -400.0,
+    -300.0,
+    -200.0
+  ],
+  "one_axis_at_a_time": true,
+  "n_series": 26,
+  "n_settings": 5
+}

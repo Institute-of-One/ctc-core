@@ -52,6 +52,10 @@ from pathlib import Path
 import numpy as np
 import SimpleITK as sitk
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 ARCHIVES = {
     "gas": ("gas-filled-colon-segmentation.zip", "Segmentation Air"),
     "gas_fluid": ("gas-and-fluid-filled-colon-segmentation.zip", "Segmentation Air and Fluid"),

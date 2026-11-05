@@ -1,0 +1,7 @@
+Quantity,Value,Series
+"Colon that is fluid-filled or collapsed, % of colon","4.1 [3.0, 8.4]",18
+"Of that volume, the share above 100 HU (tagged), %","81.2 [75.5, 84.9]",18
+"Attenuation of that volume, HU","631 [387, 744]",18
+Series with any colon beyond 60 mm of the path,12 / 18,18
+"Of the colon beyond 60 mm, the share that was gas, %","97.1 [94.3, 99.5]",12
+"Of the colon beyond 60 mm, the share excluded by construction, %","2.9 [0.5, 5.7]",12

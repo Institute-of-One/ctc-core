@@ -1,0 +1,32 @@
+{
+  "series": 60,
+  "window": 5,
+  "slice_step": 10,
+  "soft_hu_range": [
+    0.0,
+    100.0
+  ],
+  "air_erosion_voxels": 3,
+  "soft_sd_p10_median_over_series_hu": 15.056,
+  "soft_sd_p10_min_hu": 9.543,
+  "soft_sd_p10_max_hu": 19.566,
+  "soft_sd_p25_median_over_series_hu": 17.102,
+  "soft_sd_p25_min_hu": 11.423,
+  "soft_sd_p25_max_hu": 21.581,
+  "soft_sd_p50_median_over_series_hu": 19.553,
+  "soft_sd_p50_min_hu": 13.77,
+  "soft_sd_p50_max_hu": 23.672,
+  "acf_lag1_median_over_series": 0.1946,
+  "acf_lag1_min": 0.0436,
+  "acf_lag1_max": 0.3429,
+  "acf_lag2_median_over_series": -0.0476,
+  "acf_lag2_min": -0.1063,
+  "acf_lag2_max": 0.0241,
+  "acf_lag3_median_over_series": 0.0071,
+  "acf_lag3_min": -0.0098,
+  "acf_lag3_max": 0.0357,
+  "air_series": 60,
+  "air_sd_median_over_series_hu": 18.122,
+  "air_sd_min_hu": 8.162,
+  "air_sd_max_hu": 32.798
+}

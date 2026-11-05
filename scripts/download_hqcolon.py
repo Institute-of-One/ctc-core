@@ -27,6 +27,10 @@ import urllib.request
 import zipfile
 from pathlib import Path
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 OSF_NODE = "8tkpm"
 DOI = "10.17605/OSF.IO/8TKPM"
 USER_AGENT = "ctc-core/0.1 (research; https://github.com/Institute-of-One/ctc-core)"

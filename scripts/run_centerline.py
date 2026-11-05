@@ -43,6 +43,9 @@ from ctc_core.centerline import (  # noqa: E402
 from ctc_core.io import get_or_make_resampled_ct  # noqa: E402
 from ctc_core.masks import build_body_air_masks  # noqa: E402
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 LOGGER = logging.getLogger("run_centerline")
 
 SUMMARY_FIELDS = [

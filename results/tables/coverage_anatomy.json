@@ -1,0 +1,531 @@
+{
+  "near_mm": 30.0,
+  "far_mm": 60.0,
+  "tagged_hu": 100.0,
+  "n_parts": 6,
+  "anatomical_labels_in_reference": false,
+  "flexures_detected": false,
+  "note": "HQColon provides a gas mask and a gas-and-fluid mask and no anatomical labels. Flexure detection from the reference centerline was tried and rejected on inspection of the drawn paths, so no segment is named anatomically; the parts are equal arc length from the rectal end",
+  "per_series": {
+    "0001/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          3.4,
+          -144.6,
+          -510.2
+        ],
+        "end_xyz_mm": [
+          33.4,
+          -271.6,
+          -351.2
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 159.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1855.3,
+      "rectum_ends_at_arc_frac": 0.081
+    },
+    "0003/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          9.4,
+          -164.6,
+          -569.6
+        ],
+        "end_xyz_mm": [
+          42.4,
+          -131.6,
+          -398.6
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 171.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1689.0,
+      "rectum_ends_at_arc_frac": 0.089
+    },
+    "0003/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -9.6,
+          -144.6,
+          -494.6
+        ],
+        "end_xyz_mm": [
+          14.4,
+          -247.6,
+          -359.6
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 135.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1672.7,
+      "rectum_ends_at_arc_frac": 0.09
+    },
+    "0004/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -2.6,
+          150.4,
+          -472.9
+        ],
+        "end_xyz_mm": [
+          -76.6,
+          135.4,
+          -363.9
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 109.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1771.4,
+      "rectum_ends_at_arc_frac": 0.085
+    },
+    "0004/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -59.6,
+          -199.6,
+          -379.2
+        ],
+        "end_xyz_mm": [
+          -3.6,
+          -146.6,
+          -467.2
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": true,
+        "inferior_margin_mm": 88.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1780.7,
+      "rectum_ends_at_arc_frac": 0.084
+    },
+    "0005/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -42.7,
+          81.3,
+          -651.0
+        ],
+        "end_xyz_mm": [
+          -15.7,
+          171.3,
+          -772.0
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": true,
+        "inferior_margin_mm": 121.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1978.8,
+      "rectum_ends_at_arc_frac": 0.076
+    },
+    "0005/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          20.3,
+          -101.7,
+          -799.5
+        ],
+        "end_xyz_mm": [
+          33.3,
+          -203.7,
+          -648.5
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 151.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 2056.6,
+      "rectum_ends_at_arc_frac": 0.073
+    },
+    "0006/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          42.4,
+          -116.6,
+          -502.0
+        ],
+        "end_xyz_mm": [
+          -9.6,
+          -225.6,
+          -332.0
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 170.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 2564.0,
+      "rectum_ends_at_arc_frac": 0.059
+    },
+    "0007/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -0.6,
+          175.4,
+          -472.5
+        ],
+        "end_xyz_mm": [
+          -76.6,
+          107.4,
+          -309.5
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 163.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1894.9,
+      "rectum_ends_at_arc_frac": 0.079
+    },
+    "0007/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -17.6,
+          -99.6,
+          -530.5
+        ],
+        "end_xyz_mm": [
+          -64.6,
+          -234.6,
+          -412.5
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 118.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1953.2,
+      "rectum_ends_at_arc_frac": 0.077
+    },
+    "0009/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          19.8,
+          -85.2,
+          -949.5
+        ],
+        "end_xyz_mm": [
+          -68.2,
+          -193.2,
+          -759.5
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 190.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1548.6,
+      "rectum_ends_at_arc_frac": 0.097
+    },
+    "0012/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -7.2,
+          -129.0,
+          -690.2
+        ],
+        "end_xyz_mm": [
+          -83.2,
+          -196.0,
+          -578.2
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 112.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1640.0,
+      "rectum_ends_at_arc_frac": 0.091
+    },
+    "0014/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -38.6,
+          -192.6,
+          -379.6
+        ],
+        "end_xyz_mm": [
+          7.4,
+          -97.6,
+          -445.6
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": true,
+        "inferior_margin_mm": 66.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1839.2,
+      "rectum_ends_at_arc_frac": 0.082
+    },
+    "0017/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -40.7,
+          -218.7,
+          -485.8
+        ],
+        "end_xyz_mm": [
+          27.3,
+          -109.7,
+          -588.8
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": true,
+        "inferior_margin_mm": 103.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1974.1,
+      "rectum_ends_at_arc_frac": 0.076
+    },
+    "0017/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          23.3,
+          153.3,
+          -438.8
+        ],
+        "end_xyz_mm": [
+          -60.7,
+          106.3,
+          -289.8
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 149.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1966.5,
+      "rectum_ends_at_arc_frac": 0.076
+    },
+    "0018/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -6.7,
+          108.3,
+          -1493.5
+        ],
+        "end_xyz_mm": [
+          -60.7,
+          35.3,
+          -1369.5
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 124.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1176.8,
+      "rectum_ends_at_arc_frac": 0.127
+    },
+    "0020/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          2.0,
+          25.0,
+          842.4
+        ],
+        "end_xyz_mm": [
+          -19.0,
+          -39.0,
+          995.4
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 153.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1983.0,
+      "rectum_ends_at_arc_frac": 0.076
+    },
+    "0022/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          5.4,
+          41.9,
+          -377.5
+        ],
+        "end_xyz_mm": [
+          -32.6,
+          -54.1,
+          -309.5
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 68.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1879.0,
+      "rectum_ends_at_arc_frac": 0.08
+    },
+    "0022/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -36.2,
+          -24.1,
+          -274.5
+        ],
+        "end_xyz_mm": [
+          -5.2,
+          32.9,
+          -405.5
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": true,
+        "inferior_margin_mm": 131.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1792.9,
+      "rectum_ends_at_arc_frac": 0.084
+    },
+    "0025/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          5.8,
+          -25.3,
+          -420.0
+        ],
+        "end_xyz_mm": [
+          -67.2,
+          -54.3,
+          -259.0
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 161.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1864.8,
+      "rectum_ends_at_arc_frac": 0.08
+    },
+    "0026/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          10.0,
+          61.6,
+          -421.0
+        ],
+        "end_xyz_mm": [
+          -46.0,
+          -48.4,
+          -332.0
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 89.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1962.7,
+      "rectum_ends_at_arc_frac": 0.076
+    },
+    "0026/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -13.7,
+          -6.2,
+          -497.6
+        ],
+        "end_xyz_mm": [
+          -97.7,
+          -85.2,
+          -386.6
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 111.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1928.8,
+      "rectum_ends_at_arc_frac": 0.078
+    },
+    "0028/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          -16.0,
+          -57.9,
+          -286.6
+        ],
+        "end_xyz_mm": [
+          7.0,
+          32.1,
+          -355.6
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": true,
+        "inferior_margin_mm": 69.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 2335.5,
+      "rectum_ends_at_arc_frac": 0.064
+    },
+    "0028/secondary": {
+      "orientation": {
+        "start_xyz_mm": [
+          5.7,
+          29.2,
+          -462.1
+        ],
+        "end_xyz_mm": [
+          -116.3,
+          52.2,
+          -241.1
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 221.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1881.4,
+      "rectum_ends_at_arc_frac": 0.08
+    },
+    "0030/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          5.1,
+          -11.6,
+          -438.8
+        ],
+        "end_xyz_mm": [
+          -112.9,
+          -98.6,
+          -297.8
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 141.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 2196.4,
+      "rectum_ends_at_arc_frac": 0.068
+    },
+    "0031/primary": {
+      "orientation": {
+        "start_xyz_mm": [
+          4.6,
+          -14.7,
+          -469.0
+        ],
+        "end_xyz_mm": [
+          -115.4,
+          -98.7,
+          -364.0
+        ],
+        "rule": "the more inferior end (smaller z in LPS) is the rectum",
+        "reversed": false,
+        "inferior_margin_mm": 105.0,
+        "ambiguous": false
+      },
+      "reference_length_mm": 1878.2,
+      "rectum_ends_at_arc_frac": 0.08
+    }
+  }
+}

@@ -1,0 +1,114 @@
+name: ci
+
+# What this is for, in one line each:
+#
+# * install-as-documented runs the README's own install block, on both
+#   platforms it gives, and then its own test command. A working tree carries
+#   an editable install from months ago, so a broken README stays green on the
+#   author's machine for ever; the only way to find out whether the published
+#   instructions work is to let a machine with nothing on it follow them.
+# * gates runs the checks, including their self-tests: a gate whose injections
+#   are not exercised is a gate nobody has seen fail.
+# * reproduce deletes the results four stages claim to write, re-runs those
+#   stages and requires the committed files back, byte for byte for the
+#   figures. The image stages need about 19 GB of DICOM and the HQColon masks,
+#   which are the reader's to download under their own licences, so they are
+#   not run here -- and that limit is stated rather than papered over.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install-as-documented:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: README install (Linux, macOS)
+        if: runner.os == 'Linux'
+        run: |
+          python3 -m venv .venv
+          .venv/bin/python -m pip install -r requirements-lock.txt
+          .venv/bin/python -m pip install -e ".[tcia,figures,dev]"
+          .venv/bin/python -m pytest
+
+      - name: README install (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          python -m venv .venv
+          .venv\Scripts\python -m pip install -r requirements-lock.txt
+          .venv\Scripts\python -m pip install -e ".[tcia,figures,dev]"
+          .venv\Scripts\python -m pytest
+
+  gates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          python -m pip install -r requirements-lock.txt
+          python -m pip install -e ".[tcia,figures,dev]"
+
+      - name: the environment matches the lock file
+        run: python scripts/check_environment.py --all
+
+      # Every entry point under the author's console encoding, which is the one
+      # this runner is not: a script that prints an em dash to a cp932 console
+      # dies there and nowhere else.
+      - name: entry points, and their --help under cp932
+        run: |
+          python scripts/check_entrypoints.py --selftest
+          python scripts/check_entrypoints.py --run-help
+
+      - name: the register, the build coverage and the reported numbers
+        run: |
+          python scripts/check_tables.py
+          python scripts/check_tables.py --selftest
+
+      # ruff's own version comes from requirements-lock.txt, not from a range:
+      # an unpinned linter upgrades itself and turns a repository red overnight.
+      # The rule set is the one this tree is clean under; the wider set in
+      # pyproject.toml has a backlog, and a gate that is red for ever says
+      # nothing about the change in front of it.
+      - name: lint
+        run: ruff check . --select F,B,E9
+
+      - name: tests
+        run: python -m pytest -q
+
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          python -m pip install -r requirements-lock.txt
+          python -m pip install -e ".[tcia,figures,dev]"
+
+      - name: regenerate what needs no image data, and compare
+        run: python scripts/check_rerun.py --stages phantoms strata tables figures
+
+      - name: say what was not regenerated here
+        run: |
+          echo "Not run in CI, because they need the DICOM series and the"
+          echo "HQColon masks (about 19 GB, the reader's own downloads):"
+          python scripts/run_all.py --list-outputs --stages centerline position \
+            hqcolon ablation sweep gas coverage indices agreement perturbation \
+            noise cohort clustered vgp case_figures

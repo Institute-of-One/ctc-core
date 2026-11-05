@@ -149,7 +149,7 @@
       }
     ],
     "coverage_criterion_met": 15,
-    "excluding_inspected_patients": {
+    "primary_set_patients_not_inspected": {
       "inspected_series": [
         "0007-1",
         "0003-2",
@@ -158,6 +158,7 @@
         "0030-1"
       ],
       "independent": false,
+      "held_out_test_set_exists": false,
       "n_series": 18,
       "n_patients": 13,
       "dice_lumen_vs_gas": {
@@ -190,7 +191,17 @@
         "q3": 0.9972,
         "n": 18
       },
-      "coverage_criterion_met": 8
+      "coverage_criterion_met": 8,
+      "gas_volume_vs_reference": {
+        "n": 18,
+        "pearson_r": 0.847,
+        "relative_error": {
+          "median": 0.0256,
+          "q1": 0.0185,
+          "q3": 0.22,
+          "n": 18
+        }
+      }
     },
     "colon_mostly_missed": 4,
     "by_configuration": {
@@ -332,6 +343,189 @@
       "slicewise_fallback": 6
     }
   },
+  "comparators": {
+    "prototype_reference_evaluation": {
+      "n_series_evaluated": 17,
+      "n_patients": 13,
+      "produced_no_centerline": [
+        "0026-2"
+      ],
+      "colon_within_30mm_frac": {
+        "median": 0.3881,
+        "q1": 0.0331,
+        "q3": 0.4991,
+        "n": 17
+      },
+      "colon_beyond_60mm_frac": {
+        "median": 0.5032,
+        "q1": 0.4143,
+        "q3": 0.7908,
+        "n": 17
+      },
+      "dice_lumen_vs_gas": {
+        "median": 0.983,
+        "q1": 0.0,
+        "q3": 0.9851,
+        "n": 17
+      },
+      "jaccard_lumen_vs_gas": {
+        "median": 0.9665,
+        "q1": 0.0,
+        "q3": 0.9706,
+        "n": 17
+      },
+      "lumen_recall_vs_gas": {
+        "median": 0.9941,
+        "q1": 0.0,
+        "q3": 0.9961,
+        "n": 17
+      },
+      "lumen_precision_vs_gas": {
+        "median": 0.9697,
+        "q1": 0.0,
+        "q3": 0.9764,
+        "n": 17
+      },
+      "msd_lumen_vs_gas_mm": {
+        "median": 0.16,
+        "q1": 0.14,
+        "q3": 96.96,
+        "n": 17
+      },
+      "hd95_lumen_vs_gas_mm": {
+        "median": 1.0,
+        "q1": 1.0,
+        "q3": 213.08,
+        "n": 17
+      },
+      "centerline_inside_gas_frac": {
+        "median": 0.9816,
+        "q1": 0.0,
+        "q3": 0.9986,
+        "n": 17
+      },
+      "length_ratio_gf": {
+        "median": 0.539,
+        "q1": 0.072,
+        "q3": 0.612,
+        "n": 17
+      },
+      "ref_gf_covered_frac": {
+        "median": 0.5118,
+        "q1": 0.0,
+        "q3": 0.5911,
+        "n": 17
+      },
+      "length_ratio": {
+        "median": 0.541,
+        "q1": 0.075,
+        "q3": 0.609,
+        "n": 17
+      },
+      "segmentation_failures": 5,
+      "coverage_criterion_met": 0
+    },
+    "traced_length_cm": {
+      "prototype": {
+        "median": 90.853,
+        "q1": 56.281,
+        "q3": 111.231,
+        "n": 55
+      },
+      "reported": {
+        "median": 156.566,
+        "q1": 102.7545,
+        "q3": 190.6078,
+        "n": 60
+      },
+      "prototype_range": [
+        4.8,
+        161.4
+      ],
+      "reported_range": [
+        34.8,
+        277.8
+      ],
+      "inside_published_range": {
+        "bounds_cm": [
+          109.7,
+          195.9
+        ],
+        "source": "Utano 2021",
+        "prototype": 14,
+        "prototype_shorter": 41,
+        "prototype_longer": 0,
+        "prototype_no_path": 5,
+        "reported": 30,
+        "reported_shorter": 18,
+        "reported_longer": 12,
+        "reported_no_path": 0,
+        "n": 60
+      }
+    },
+    "published_total_colon_length_cm": [
+      {
+        "source": "Utano 2021",
+        "cohort": "CT colonography, computer-generated centerline, 295 patients",
+        "value": "150.3 +/- 18.5",
+        "range": "109.7-195.9"
+      },
+      {
+        "source": "Alqarni 2024",
+        "cohort": "Meta-analysis of 31 studies, all techniques, 58 study means",
+        "value": "148.3 +/- 27.1",
+        "range": "93.5-210.8"
+      }
+    ],
+    "searched_for_published_results_on_this_collection": {
+      "date": "2026-11-04",
+      "database": "Europe PMC REST",
+      "found": [
+        "Finocchiaro 2026"
+      ],
+      "note": "the only published work on this collection is the reference segmentation itself, so a comparison with it is Evaluation 1 and not an independent comparator"
+    }
+  },
+  "coverage_by_position": {
+    "n_series": 18,
+    "parts": 6,
+    "fluid_or_collapsed_frac": {
+      "median": 0.0413,
+      "q1": 0.0302,
+      "q3": 0.0842,
+      "n": 18
+    },
+    "series_with_any_colon_beyond_60mm": 12,
+    "beyond_60mm_that_was_gas_frac": {
+      "median": 0.9708,
+      "q1": 0.943,
+      "q3": 0.9952,
+      "n": 12
+    },
+    "excluded_tagged_frac": {
+      "median": 0.8117,
+      "q1": 0.7547,
+      "q3": 0.8494,
+      "n": 18
+    },
+    "anatomical_segments_available": false
+  },
+  "threshold_sweep": {
+    "settings": 5,
+    "series": 26
+  },
+  "polyp_realism": {
+    "conditions": 13,
+    "measurements": 1650,
+    "measured": 1650,
+    "repeats": 20
+  },
+  "cohort_lesions": {
+    "lesions": 3
+  },
+  "exploratory_composites": [
+    "distension_quality_score"
+  ],
   "asymmetry_definitions": {
     "fat_asymmetry": {
       "icc21": -0.07,

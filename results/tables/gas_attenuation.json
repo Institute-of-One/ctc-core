@@ -1,0 +1,11 @@
+{
+  "candidate_thresholds_hu": [
+    -800.0,
+    -700.0,
+    -600.0
+  ],
+  "corner_voxels_in_plane": 24,
+  "calibrated_air_hu": -1000,
+  "note": "gas HU is measured inside the HQColon gas mask, which is the material the threshold selects; external air is the corners of the field of view, where a calibrated scanner reads -1000",
+  "n_series": 26
+}

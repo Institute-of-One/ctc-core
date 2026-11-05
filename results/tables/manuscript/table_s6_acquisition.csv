@@ -1,0 +1,26 @@
+axis,stratum,series,patients,met the length criterion,"Dice, lumen vs gas reference",Colon within 30 mm,Colon beyond 60 mm,met the coverage criterion,note
+manufacturer,GE MEDICAL SYSTEMS,22,11,20 / 22,0.829,0.820,0.019,5 / 9,
+manufacturer,Philips,4,2,4 / 4,0.935,0.952,0.000,1 / 1,
+manufacturer,SIEMENS,30,15,28 / 30,0.902,0.887,0.000,9 / 15,
+manufacturer,TOSHIBA,4,2,4 / 4,0.729,0.578,0.197,0 / 1,
+reconstruction kernel,B,4,2,4 / 4,0.935,0.952,0.000,1 / 1,
+reconstruction kernel,B30f,30,15,28 / 30,0.902,0.887,0.000,9 / 15,
+reconstruction kernel,FC13,4,2,4 / 4,0.729,0.578,0.197,0 / 1,
+reconstruction kernel,STANDARD,22,11,20 / 22,0.829,0.820,0.019,5 / 9,
+"slice thickness, mm",1.0,38,19,36 / 38,0.902,0.887,0.000,10 / 17,
+"slice thickness, mm",1.25,22,11,20 / 22,0.829,0.820,0.019,5 / 9,
+"tube voltage, kVp",120.0,58,29,54 / 58,0.882,0.860,0.005,15 / 26,
+"tube voltage, kVp",140.0,2,1,2 / 2,n/a,n/a,n/a,n/a,
+"tube current, mA",100.0,1,1,1 / 1,0.902,0.345,0.346,0 / 1,
+"tube current, mA",115.0,2,1,2 / 2,0.935,0.952,0.000,1 / 1,
+"tube current, mA",120.0,4,2,4 / 4,0.807,0.521,0.383,0 / 1,
+"tube current, mA",125.0,4,2,4 / 4,0.977,0.969,0.000,3 / 3,
+"tube current, mA",140.0,22,11,20 / 22,0.829,0.820,0.019,5 / 9,
+"tube current, mA",141.0,16,9,15 / 16,0.885,0.887,0.000,6 / 9,
+"tube current, mA",150.0,6,3,5 / 6,0.725,0.576,0.210,0 / 2,
+"tube current, mA",185.0,2,1,2 / 2,n/a,n/a,n/a,n/a,
+"tube current, mA",280.0,3,2,3 / 3,n/a,n/a,n/a,n/a,
+"recorded Exposure, mAs (not used as an axis)",GE MEDICAL SYSTEMS,22,11,,,,,,LightSpeed16; 6-2824 mAs; 140 mA; max/min 471
+"recorded Exposure, mAs (not used as an axis)",Philips,4,2,,,,,,Brilliance 40; 62-100 mAs; 115/185 mA; max/min 2
+"recorded Exposure, mAs (not used as an axis)",SIEMENS,30,15,,,,,,Sensation 16/Sensation 64; 50-100 mAs; 100/120/125/141/150/280 mA; max/min 2
+"recorded Exposure, mAs (not used as an axis)",TOSHIBA,4,2,,,,,,Aquilion; 75-75 mAs; 150 mA; max/min 1

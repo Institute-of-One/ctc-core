@@ -6,7 +6,8 @@ authors:
   - family-names: Yamamoto
     given-names: Shuji
     affiliation: "Institute of One / LISIT"
-version: 0.1.1
+version: 0.1.2
+date-released: "2026-11-05"
 license: MIT
 repository-code: "https://github.com/Institute-of-One/ctc-core"
 doi: "10.5281/zenodo.22720528"

@@ -1,0 +1,33 @@
+{
+  "key_image": "Polyp-description-key-table.png",
+  "cohort_patients": 15,
+  "sheets": {
+    ">=10 mm": {
+      "patients_in_sheet": 35,
+      "patients_in_cohort": 0
+    },
+    "6-9 mm": {
+      "patients_in_sheet": 69,
+      "patients_in_cohort": 3
+    }
+  },
+  "lesions_in_cohort": 3,
+  "lesions_by_band": {
+    ">=10 mm": 0,
+    "6-9 mm": 3
+  },
+  "reported_sizes_mm": [
+    6,
+    9,
+    9
+  ],
+  "size_sources": [
+    "colonoscopy",
+    "pathology"
+  ],
+  "with_supine_slice": 2,
+  "with_prone_slice": 1,
+  "with_no_slice_at_all": 1,
+  "with_in_plane_coordinate": 0,
+  "in_plane_coordinate_note": "the sheet has no in-plane coordinate column for any lesion in any of the three sheets"
+}

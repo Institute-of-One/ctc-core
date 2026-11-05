@@ -22,8 +22,17 @@ import SimpleITK as sitk
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from ctc_core.quality import QualityConfig, gas_volume_ml  # noqa: E402
 
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 
 def main() -> None:
+    # No arguments, so argparse would add nothing -- but a script that answers
+    # --help by reading image data, and failing where there is none, cannot be
+    # asked what it does.
+    if {"-h", "--help"} & set(sys.argv[1:]):
+        print(__doc__)
+        return
     ev = {(r["PatientID"], r["role"]): r for r in csv.DictReader(
         open("results/tables/eval_hqcolon_auto.csv", encoding="utf-8"))}
     out = []

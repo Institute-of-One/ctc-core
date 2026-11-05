@@ -30,6 +30,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 BLUE, ORANGE, AQUA = "#2a78d6", "#eb6834", "#1baf7a"
 INK, INK2, GRID = "#0b0b0b", "#52514e", "#e6e5e1"
 
@@ -92,6 +96,15 @@ def save(fig, out: Path, name: str) -> None:
         if ext == "pdf":
             # No creation date: identical inputs must give byte-identical files,
             # so that a re-run shows up in git only when a figure really changed.
+            # What this does not fix is everything else the bytes depend on:
+            # which file matplotlib resolves for the font family set above, the
+            # rcParams this script does not set and a reader's matplotlibrc
+            # therefore decides, the interpreter's own zlib, which compresses
+            # the content streams, and the FreeType build that rasterises the
+            # text. check_environment.py pins the
+            # packages, which covers the first of those and not the other two:
+            # outside the environment the committed figures were drawn in, a
+            # figure can look identical and compare differently.
             kw["metadata"] = {"CreationDate": None}
         fig.savefig(out / f"{name}.{ext}", **kw)
     plt.close(fig)
@@ -407,9 +420,19 @@ def figure_7_perturbation(tables: Path, out: Path) -> None:
         return
     n_series = len({(r["PatientID"], r["role"]) for r in rows})
 
-    conds = [(a, w) for a in (1.0, 2.0) for w in (10.0, 20.0)]
+    # The conditions as the run writes them. The smooth wobble has a wavelength
+    # and two directions in the local plane; the independent one -- added after
+    # this figure was first drawn -- has neither, and its wavelength cell is
+    # empty. Until 2026-11-05 this loop called float() on that cell, so the
+    # figure stage died on the committed results and figure_7 could not be
+    # redrawn at all; the condition it was missing is one the paper reports in
+    # Table 5.
+    conds: list[tuple[float, float | None]] = [(a, w) for a in (1.0, 2.0)
+                                               for w in (None, 10.0, 20.0)]
     # Compact tick labels: at 8 pt the spelled-out pairs ran into each other.
-    labels = [f"{a:.0f} / {w:.0f}" for a, w in conds]
+    # Six positions, not four, so the spaces go: at 8 pt "1 / ind" and "1 / 10"
+    # ran into each other. "ind" is spelled out in the legend.
+    labels = [f"{a:.0f}/{'ind' if w is None else f'{w:.0f}'}" for a, w in conds]
     panels = [
         ("traced_length_rel_change", 100.0, "traced length (%)",
          "a  Traced length", BLUE),
@@ -419,27 +442,35 @@ def figure_7_perturbation(tables: Path, out: Path) -> None:
          "c  Path outside the lumen", AQUA),
     ]
 
+    markers = {"n": ("o", 0.45, -0.16), "b": ("^", 0.8, 0.16), "iid": ("s", 0.6, 0.0)}
     fig, axes = plt.subplots(1, 3, figsize=(FULL_W, 62 * MM))
     rng = np.random.default_rng(7)
     for ax, (key, scale, ylabel, title, colour) in zip(axes, panels, strict=True):
+        labelled: set[str] = set()
         for i, (amp, wav) in enumerate(conds):
-            for j, direction in enumerate(("n", "b")):
+            for direction in (("iid",) if wav is None else ("n", "b")):
+                marker, alpha, dx = markers[direction]
                 vals = np.array([num(r[key]) for r in rows
-                                 if float(r["amplitude_mm"]) == amp
-                                 and float(r["wavelength_mm"]) == wav
+                                 if num(r["amplitude_mm"]) == amp
+                                 and num(r["wavelength_mm"]) == wav
                                  and r["direction"] == direction
                                  and num(r[key]) is not None]) * scale
                 if not vals.size:
                     continue
-                x = i + (-0.16 if j == 0 else 0.16)
+                x = i + dx
+                legend = (None if direction in labelled else
+                          "independent" if direction == "iid" else
+                          f"direction {direction}")
+                labelled.add(direction)
                 ax.scatter(x + rng.normal(0, 0.035, vals.size), vals, s=5,
-                           color=colour, alpha=0.45 if j == 0 else 0.8, linewidths=0,
-                           marker="o" if j == 0 else "^",
-                           label=f"direction {direction}" if i == 0 else None)
+                           color=colour, alpha=alpha, linewidths=0,
+                           marker=marker, label=legend)
                 ax.plot([x - 0.11, x + 0.11], [np.median(vals)] * 2, color=INK,
                         linewidth=1.1, zorder=4)
         ax.axhline(0, color=INK2, linewidth=0.7, linestyle=(0, (3, 2)))
-        ax.set_xticks(range(len(conds)), labels)
+        # Rotated, because six labels across a third of the page touch when
+        # they are horizontal: at 8 pt "1/ind" and "1/10" printed as "1/ind1/10".
+        ax.set_xticks(range(len(conds)), labels, rotation=45, ha="right")
         ax.set_xlabel("amplitude / wavelength (mm)")
         ax.set_ylabel(ylabel)
         ax.set_title(title, color=INK, loc="left")

@@ -50,6 +50,10 @@ from pathlib import Path
 import numpy as np
 import SimpleITK as sitk
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 FIELDS = [
     "PatientID", "role", "SeriesInstanceUID",
     "patient_position_tag", "image_orientation",

@@ -21,6 +21,10 @@ import csv
 import json
 from pathlib import Path
 
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+sys.stderr.reconfigure(encoding="utf-8")
+
 # Nominal total colon length is 150-200 cm (Hounsfield et al.; standard anatomy).
 # A centerline is called "complete" when it covers most of that range and
 # "partial" when it clearly stops early. Thresholds are reported in
