@@ -182,6 +182,41 @@ def pdf_diffs(rerun: Path, committed: Path) -> list[str]:
                 out.append(body)
             at = end
 
+    # A coordinate written with one digit more or less is the same drawing.
+    # The two PDFs that survived every other normalisation differed by one
+    # character in a marker path -- 2.645751 against 2.6457513, the square
+    # root of seven -- and by two in a page of coordinates, while the 300 dpi
+    # rasters of both were pixel for pixel identical. Numbers are compared as
+    # numbers, to four decimals of a PDF point: a ten-thousandth of a point is
+    # three millionths of an inch, and anything that moves a mark by that much
+    # moves it by less than a thousandth of a pixel.
+    NUMBER = re.compile(rb"(-?\d+\.\d+)")
+
+    def is_text(stream: bytes) -> bool:
+        printable = sum(32 <= c < 127 or c in b"\n\r\t" for c in stream[:4096])
+        return printable >= 0.9 * min(len(stream), 4096) and bool(stream)
+
+    def same_drawing(x: bytes, y: bytes, tol: float = 1e-3) -> bool:
+        """Equal text, and numbers equal within a thousandth of a point.
+
+        Compared as numbers rather than rounded to a fixed number of decimals:
+        rounding puts a boundary somewhere, and a value that sits on it --
+        471.525949 against 471.525950 -- comes out different although it has
+        moved by a millionth of a point.
+        """
+        if not (is_text(x) and is_text(y)):
+            return x == y
+        px, py = NUMBER.split(x), NUMBER.split(y)
+        if len(px) != len(py):
+            return False
+        for i, (u, v) in enumerate(zip(px, py, strict=True)):
+            if i % 2 == 0:
+                if u != v:
+                    return False
+            elif abs(float(u) - float(v)) > tol:
+                return False
+        return True
+
     def plumbing(chunk: bytes) -> bytes:
         """A chunk between streams, with what compression decides taken out.
 
@@ -207,7 +242,8 @@ def pdf_diffs(rerun: Path, committed: Path) -> list[str]:
                 "the drawing instead"]
     if len(a) != len(b):
         return ["%d part(s) vs %d" % (len(a), len(b))]
-    differing = [i for i, (x, y) in enumerate(zip(a, b, strict=True)) if x != y]
+    differing = [i for i, (x, y) in enumerate(zip(a, b, strict=True))
+                 if not (x == y or (i % 2 == 1 and same_drawing(x, y)))]
     if not differing:
         return []
 
@@ -218,9 +254,14 @@ def pdf_diffs(rerun: Path, committed: Path) -> list[str]:
     for i in differing[:6]:
         kind = "the text between streams"
         if i % 2 == 1:
-            head = a[i - 1][-400:] if i else b""
-            for key in (b"/FontFile", b"/FontFile2", b"/FontFile3", b"/Type1",
-                        b"/TrueType", b"/CIDFontType", b"/Image", b"/ToUnicode"):
+            # The dictionary this stream belongs to is the last one in the
+            # text before it. Reading a fixed number of bytes back instead
+            # picked up a neighbouring object and called a page of
+            # coordinates an image.
+            head = a[i - 1] if i else b""
+            head = head[head.rfind(b"<<"):] if b"<<" in head else head[-200:]
+            for key in (b"/FontFile", b"/Type1", b"/TrueType", b"/CIDFontType",
+                        b"/Image", b"/ToUnicode", b"/Subtype /Form"):
                 if key in head:
                     kind = "a stream declared %s" % key.decode()
                     break

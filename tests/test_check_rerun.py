@@ -337,6 +337,30 @@ class FigureComparison(unittest.TestCase):
         self.assertNotEqual(a.stat().st_size, b.stat().st_size)
         self.assertEqual(check_rerun.diffs(a, b), [])
 
+    def test_a_coordinate_that_moves_in_the_seventh_decimal_agrees(self):
+        # The two PDFs that survived every other normalisation differed by one
+        # character in a number: 2.645751 against 2.6457513. A ten-thousandth
+        # of a point is three millionths of an inch.
+        a = self.pdf("a.pdf", b"0 -2.645751 m 2.645751 0 l h B", 6)
+        b = self.pdf("b.pdf", b"0 -2.6457513 m 2.6457513 0 l h B", 6)
+        self.assertEqual(check_rerun.diffs(a, b), [])
+
+    def test_a_coordinate_that_really_moves_is_reported(self):
+        a = self.pdf("a.pdf", b"0 -2.645751 m 2.645751 0 l h B", 6)
+        b = self.pdf("b.pdf", b"0 -2.645751 m 2.655751 0 l h B", 6)
+        self.assertTrue(check_rerun.diffs(a, b))
+
+    def test_a_coordinate_on_a_rounding_boundary_agrees(self):
+        # Rounding to four decimals would put these two on opposite sides.
+        a = self.pdf("a.pdf", b"471.525949 0 l", 6)
+        b = self.pdf("b.pdf", b"471.525950 0 l", 6)
+        self.assertEqual(check_rerun.diffs(a, b), [])
+
+    def test_a_changed_operator_is_reported_even_with_equal_numbers(self):
+        a = self.pdf("a.pdf", b"0 -2.645751 m 2.645751 0 l h B", 6)
+        b = self.pdf("b.pdf", b"0 -2.645751 m 2.645751 0 l h f", 6)
+        self.assertTrue(check_rerun.diffs(a, b))
+
     def test_a_changed_drawing_is_reported_in_a_pdf(self):
         a = self.pdf("a.pdf", b"BT /F1 12 Tf (figure) Tj ET", 9)
         b = self.pdf("b.pdf", b"BT /F1 12 Tf (other) Tj ET", 9)
