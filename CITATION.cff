@@ -13,8 +13,11 @@ repository-code: "https://github.com/Institute-of-One/ctc-core"
 doi: "10.5281/zenodo.22720528"
 identifiers:
   - type: doi
+    value: "10.5281/zenodo.23968214"
+    description: "The archived version 0.1.2, as reported in the manuscript"
+  - type: doi
     value: "10.5281/zenodo.22731519"
-    description: "The archived version 0.1.1, as reported in the manuscript"
+    description: "The archived version 0.1.1, the release before 0.1.2"
   - type: doi
     value: "10.5281/zenodo.22720529"
     description: "The archived version 0.1.0, before the centerline perturbation experiment was added"
